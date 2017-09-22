@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+html(lang="zh-Cn")
+  head
+    meta(charset="UTF-8")
+    title Qymh
+    link(rel="stylesheet", href="style/main.min.css")
+  body
+    .loginBox.w400(style="margin:100px auto;")
+      form(action="/login", method="post" autocomplete="off")
+        p.font30.colorSky.tc 
+          |登陆
+        include messages.pug
+        p.mt30
+          label.col20.dib.tc.h25 用户名:
+          input.col70.dib.input-big(placeholder="请输入用户名" name="name")
+        p.mt10
+          label.col20.dib.tc 密码:
+          input.col70.dib.input-big(placeholder="请输入密码" name="pass")
+        p.tc.mt20
+          button.btn-big.col90.btn-big.btn-sky 登陆

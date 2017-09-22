@@ -1,0 +1,5 @@
+-var messages=res.locals.messages
+  if messages
+    each message in messages
+      p.mt20.tc.colorSky.h35.lh35= message.msg
+  -res.locals.removeMessages()

@@ -1,0 +1,19 @@
+{
+  "name": "jsonmaker",
+  "version": "1.0.0",
+  "description": "a json Maker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.17.2",
+    "express": "^4.14.1",
+    "express-session": "^1.15.5",
+    "mongoose": "^4.11.8",
+    "pug": "^2.0.0-rc.4"
+  },
+  "author": "Qymh",
+  "license": "ISC"
+}
