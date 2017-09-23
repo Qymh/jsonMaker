@@ -7,7 +7,8 @@ exports.list=(req,res,next)=>{
   var name=params.name
 
   res.render('api.pug',{
-    name:name
+    name:name,
+    res:res
   })
 
   exports.name=name

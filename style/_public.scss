@@ -271,6 +271,39 @@
   text-align: center;
 }
 
+.alertError{
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  width: 140px;
+  height: 40px;
+  margin-left: -70px;
+  line-height: 40px;
+  color: #fff;
+  background-color: deeppink;
+  text-align: center;
+}
+
+.alertConfirm{
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 400px;
+  height: 70px;
+  margin-left: -200px;
+  color: #fff;
+  background-color: deeppink;
+  text-align: center;
+  >div{
+    line-height: 35px;
+    height: 50%;
+    &:nth-of-type(2){
+      cursor: pointer;
+      font-size: 20px;
+    }
+  }
+}
+
 // hover
 
 .hoverBkSky{

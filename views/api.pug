@@ -2,8 +2,11 @@
 html(lang="zh-Cn")
   head
     meta(charset="UTF-8")
+    meta(name="keywords" content="Qymh个人json数据库")
+    meta(name="description" content="Qymh个人json数据库")
     title Qymh
-    link(rel="stylesheet", href="../style/main.min.css")
+    link(rel="shortcut icon" href="http://nav.qymh.org.cn/static/images/q.ico" type="image/x-icon")
+    link(rel="stylesheet", href="style/main.min.css")
   body(style="overflow-x:hidden;overflow-y:auto")
     .apiBox
       .font30.fb.mt30.h50.lh50.ml50= `${name}api管理`
@@ -69,17 +72,24 @@ html(lang="zh-Cn")
         }
       },
       created(){
-        var self=this
+        // 判断登陆
+        if(`#{res.locals.user}`){  
+          let self=this
 
-        // 获取属性值
-        this.$http.get(`/api/#{name}/property`).then(res=>{
-          self.properties=res.data
-        })
+          // 获取属性值
+          this.$http.get(`/api/#{name}/property`).then(res=>{
+            self.properties=res.data
+          })
 
-        // 获取值
-        this.$http.get(`/api/#{name}/value`).then(res=>{
-          self.values=res.data
-        })
+          // 获取值
+          this.$http.get(`/api/#{name}/value`).then(res=>{
+            self.values=res.data
+          })
+        }else{
+          window.location.href="/login"
+        }
+
+
       },
       components:{
         success:{

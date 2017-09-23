@@ -2,7 +2,10 @@
 html(lang="zh-Cn")
   head
     meta(charset="UTF-8")
+    meta(name="keywords" content="Qymh个人json数据库")
+    meta(name="description" content="Qymh个人json数据库")
     title Qymh
+    link(rel="shortcut icon" href="http://nav.qymh.org.cn/static/images/q.ico" type="image/x-icon")
     link(rel="stylesheet", href="style/main.min.css")
   body(style="overflow-x:hidden;overflow-y:auto")
     .home
@@ -33,7 +36,7 @@ html(lang="zh-Cn")
         enter-active-class="animated fadeIn"
         leave-active-class="animated fadeOut"
       )
-        component(:is="alert")  
+        component(:is="alert")(:target="target")
     script(src="https://cdn.bootcss.com/vue/2.4.2/vue.js")
     script(src="https://cdn.bootcss.com/vue-resource/1.3.4/vue-resource.js")
     script.
@@ -44,7 +47,8 @@ html(lang="zh-Cn")
             api:'',
             apis:[],
             alert:'normal',
-            basetime:400
+            basetime:400,
+            target:''
           }
         },
         created(){
@@ -56,22 +60,70 @@ html(lang="zh-Cn")
           }else{
             window.location.href="/login"
           }
-
         },
         components:{
           success:{
             template:
             `
             <div class="alertBox">
-              <div class="animated fadeIn alertSuccess font14 z999">操作成功</div>
+              <div class="animated fadeIn alertSuccess font14 z999">
+                操作成功
+              </div>
             </div>
             `
           },
           error:{
             template:`
             <div class="alertBox">
-              <div class="animated fadeIn alertSuccess font14 z999">请求失败
+              <div class="animated fadeIn alertError font14 z999">请求失败</div>
             </div>`
+          },
+          confirm:{
+            template:`
+            <div class="alertBox">
+              <div class="animated fadeIn alertConfirm font14 z999 h50 lh50 w200">
+                <div>删除数据后无法恢复,请再次点击确定后删除</div>
+                <div>
+                  <span @click="confirmBtn">确定</span>
+                  <span @click="closeBtn">取消</span>
+                </div>
+              </div>
+            </div>`,
+            props:['target'],
+            methods:{
+              confirmBtn(){
+                let target=this.target
+                let id=target.parentNode.firstElementChild.innerHTML
+                let deleteResource=this.$resource('/api')
+                let type=target.parentNode.firstElementChild.nextElementSibling.innerHTML.trim()
+
+                let self=this.$parent
+
+                // 动态改变api数组以更改显示 
+                deleteResource.delete({id:id,type:type}).then(res=>{
+                  self.apis.find((item,index)=>{
+                    if(item._id==id){
+                      self.apis.splice(index,1)
+                    }
+                  })
+
+                  self.alert="success"
+
+                  var timer=setTimeout(()=>{
+                    self.alert="normal"
+                  },self.basetime)
+                },res=>{
+                  self.alert="error"
+
+                  var timer=setTimeout(()=>{
+                    self.alert="normal"
+                  },self.basetime)
+                })
+                  },
+                  closeBtn(){
+                    this.$parent.alert='normal'
+                  }
+                }
           },
           normal:{
             template:'<div></div>'
@@ -118,13 +170,18 @@ html(lang="zh-Cn")
           // 删除数据
           deleteApi(e){
             let target=e.target
+
+            this.target=target
+            this.alert='confirm'
+            /*
             let id=target.parentNode.firstElementChild.innerHTML
             let deleteResource=this.$resource('/api')
+            let type=target.parentNode.firstElementChild.nextElementSibling.innerHTML.trim()
 
             let self=this
 
             // 动态改变api数组以更改显示 
-            deleteResource.delete({id:id}).then(res=>{
+            deleteResource.delete({id:id,type:type}).then(res=>{
               self.apis.find((item,index)=>{
                 if(item._id==id){
                   self.apis.splice(index,1)
@@ -143,6 +200,7 @@ html(lang="zh-Cn")
                 self.alert="normal"
               },self.basetime)
             })
+            */
           },
           // 跳转
           toApi(api){

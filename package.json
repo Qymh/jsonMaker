@@ -15,5 +15,8 @@
     "pug": "^2.0.0-rc.4"
   },
   "author": "Qymh",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^1.0.3"
+  }
 }

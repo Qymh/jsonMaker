@@ -27,7 +27,6 @@ exports.post=(req,res,next)=>{
   }
 
   Home.save(inner,(err,result)=>{
-    console.log(result)
     let inner={
       _id:result._id,
       api:result.api,
@@ -43,8 +42,9 @@ exports.post=(req,res,next)=>{
 exports.delete=(req,res,next)=>{
   let datas=req.query
   let id=datas.id
+  let type=datas.type
 
-  Home.delete(id,()=>{
+  Home.delete(id,type,()=>{
 
   })
 
