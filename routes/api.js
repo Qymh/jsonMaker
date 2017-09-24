@@ -53,6 +53,18 @@ exports.deleteProperty=(req,res,next)=>{
 
 // 获取值
 exports.getValue=(req,res,next)=>{
+
+  var params=req.params
+  var name=params.name
+
+  
+  let ApiFn=require('../lib/api')
+  
+  let inner=ApiFn(name)
+
+  let Api=inner.Api
+
+
   Api.getRange(0,100,(err,result)=>{
     res.json(result)
   })
