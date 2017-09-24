@@ -7,7 +7,6 @@ exports.list=(req,res,next)=>{
     res:res
   })
   Api.deleteAll('test',(err,result)=>{
-    console.log(result)
   })
 }
 

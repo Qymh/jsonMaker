@@ -199,8 +199,6 @@ html(lang="zh-Cn")
           deleteResource.delete(inner).then(res=>{
             self.alert="success"
 
-            console.log(self.properties)
-
             // 更改显示
             outer.removeChild(now) 
 
@@ -239,8 +237,6 @@ html(lang="zh-Cn")
 
           postResource.save(arr).then(res=>{
             self.alert="success"
-
-            console.log(res.data)
 
             // 动态改变数据数组
             self.values.push(res.data)
