@@ -4,9 +4,30 @@ html(lang="zh-Cn")
     meta(charset="UTF-8")
     meta(name="keywords" content="Qymh个人json数据库")
     meta(name="description" content="Qymh个人json数据库")
-    title Qymh
+    title Qymh数据
     link(rel="shortcut icon" href="http://nav.qymh.org.cn/static/images/q.ico" type="image/x-icon")
-    link(rel="stylesheet", href="style/main.min.css")
+    link(rel="stylesheet", href="../style/main.min.css")
+    style.
+      span::-webkit-scrollbar,th::-webkit-scrollbar{
+        display:none;
+      }
+      ::-webkit-scrollbar-track-piece {  
+          background-color:#f5f5f5;  
+          border-left:1px solid #d2d2d2;  
+      }  
+      ::-webkit-scrollbar {  
+          width:10px;  
+          height:10px;  
+      }  
+      ::-webkit-scrollbar-thumb {  
+          background-color:#c2c2c2;  
+          background-clip:padding-box;  
+          min-height:28px;  
+      }  
+      ::-webkit-scrollbar-thumb:hover {  
+          border:1px solid #636363;  
+          background-color:#929292;  
+      } 
   body(style="overflow-x:hidden;overflow-y:auto")
     .apiBox
       .font30.fb.mt30.h50.lh50.ml50= `${name}api管理`
@@ -15,35 +36,39 @@ html(lang="zh-Cn")
         input.input-center.mt15(
           placeholder="请输入要添加的属性..."
           v-model="property"
+          tabindex="1"
+          @keydown.enter="sendBtnProperty"
         )
-        button.dib.h50.w50.ml15.lh50.tc.bkSky.colorWhite.br50.point.font12(
+        span.dib.h50.w50.ml15.lh50.tc.bkSky.colorWhite.br50.point.font12(
           @click="sendProperty"
         ) 添加
       p.ml50.mt15.h30.lh30 属性列表
       .form.ml50.col100.relative.propertiesBox
-        p.dib.mt15.ml10.w380(v-for="one in properties")
-          label.col20.dib.tc {{one.property}}:
-          input.input-center.pl10(:placeholder="one.property")
-          button.dib.h50.w50.ml25.lh50.tc.br50.btn-sky.point.font12(
+        p.dib.mt15.ml10.col30(v-for="(one,index) in properties")
+          label.col35.dib.tc {{one.property}}:
+          input.input-center.col40.pl10(:placeholder="one.property")(:tabindex="index+2"
+          @keydown.enter="sendBtnApi")
+          span.dib.h50.w50.ml25.lh50.tc.br50.btn-sky.point.font12(
             @click="deleteProperty($event)"
           ) 删除
         p.btn-small.tc.btn-sky.point.font12(
           style="position:absolute;bottom:-80px;right:18.5%;"
           @click="sendApi"
         ) 提交
-      .limit.pl50.pr50
-        table.col100.pl40(style="overflow:auto;margin-top:140px;")
-          tr.col100
-            th.col10.h35.lh35.tc.borderGrey(
+      .limit.pl50.pr50.oa
+        div.pl40.oa.pb50(style="margin-top:140px;max-height:500px")
+          p.col100.dib.tolong
+            span.h35.dib.lh35.w150.fl.tc.borderGrey.oa(
               style="min-width:150px;"
-              v-for="(value,key,index) in values[0]"
-              contenteditable="true") {{key}}
-          tr.col100(v-for="value in values")
-            th.col10.h35.lh35.tc.borderGrey(
-              :contenteditable="index==0||index==Object.keys(value).length-1?'false':'true'"
+              v-for="(value,key,index) in values[0]") {{key}}
+          p.col100.dib.tolong(v-for="(value,outer) in values")
+            input.h35.dib.lh35.tc.oa.w150.fl.oa.input(
+              type="text"
+              :disabled="index==0||index==Object.keys(value).length-1?true:false"
               v-for="(one,key,index) in value"
-              @blur="putValue(key,$event)") {{one}}
-            th.col10.h35.lh35.tc.colorPink.point.font12(
+              @blur="putValue(key,outer,$event)"
+              :value="one")
+            span.w150.h35.lh35.dib.tc.colorPink.point.font12.fl(
               @click="deleteValue($event)"
             ) 删除数据
       transition(
@@ -110,6 +135,14 @@ html(lang="zh-Cn")
           template:'<div></div>'
         }
       },
+      updated(){
+        let $p=document.querySelectorAll('.tolong')
+        let len=Object.keys(this.values[this.values.length-1]).length+1
+        let width=len * 150
+        $p.forEach((item,index)=>{
+          item.style.width=width+'px'
+        })
+      },
       methods:{
         // 发送property
         sendProperty(){
@@ -131,24 +164,33 @@ html(lang="zh-Cn")
             // 动态添加属性
             self.properties.push(inner)
 
-            var timer=setTimeout(()=>{
+            let timer=setTimeout(()=>{
               self.alert="normal"
+              timer=null
             },self.basetime)
           },res=>{
             self.alert="error"
 
-            var timer=setTimeout(()=>{
+            let timer=setTimeout(()=>{
               self.alert="error"
+              timer=null
             },self.basetime)
           })
+        },
+        // 回车发送property
+        sendBtnProperty(){
+          this.sendProperty()
         },
         // 删除property
         deleteProperty(e){
           let target=e.target
+          let now=target.parentNode
+          let outer=now.parentNode
           let property=target.previousElementSibling.placeholder.trim()
           let inner={
             property:property
           }
+
 
           let deleteResource=this.$resource(`/api/#{name}/property`)
 
@@ -157,21 +199,22 @@ html(lang="zh-Cn")
           deleteResource.delete(inner).then(res=>{
             self.alert="success"
 
-            // 动态改变属性数组以更改显示 
-            self.properties.find((item,index)=>{
-              if(item.property==property){
-                self.properties.splice(index,1)
-              }
-            })
+            console.log(self.properties)
 
-            var timer=setTimeout(()=>{
+            // 更改显示
+            outer.removeChild(now) 
+
+            let timer=setTimeout(()=>{
               self.alert="normal"
+              timer=null
             },self.basetime)
+
           },res=>{
             self.alert="error"
 
-            var timer=setTimeout(()=>{
+            let timer=setTimeout(()=>{
               self.alert="normal"
+              timer=null
             },self.basetime)
           })
         },
@@ -197,24 +240,32 @@ html(lang="zh-Cn")
           postResource.save(arr).then(res=>{
             self.alert="success"
 
+            console.log(res.data)
+
             // 动态改变数据数组
             self.values.push(res.data)
 
-            var timer=setTimeout(()=>{
+            let timer=setTimeout(()=>{
               self.alert="normal"
+              timer=null
             },self.basetime)
           },res=>{
             self.alert="error"
-            var timer=setTimeout(()=>{
+            let timer=setTimeout(()=>{
               self.alert="normal"
+              timer=null
             },self.basetime)
           })
         },
+        // 回车post提交数据
+        sendBtnApi(){
+          this.sendApi()
+        },
         // put修改数据
-        putValue(key,e){
+        putValue(key,index,e){
           let target=e.target
-          let id=target.parentNode.firstElementChild.innerHTML.trim()
-          let value=target.innerHTML.trim()
+          let id=target.parentNode.firstElementChild.value.trim()
+          let value=target.value.trim()
           let putResource=this.$resource(`/api/#{name}/value`)
           let inner={
             id,
@@ -226,21 +277,26 @@ html(lang="zh-Cn")
           putResource.update(inner).then(res=>{
             self.alert="success"
 
-            var timer=setTimeout(()=>{
+            // 动态修改值
+            self.values[index][key]=value
+
+            let timer=setTimeout(()=>{
               self.alert="normal"
+              timer=null
             },self.basetime)
           },res=>{
             self.alert="error"
 
-            var timer=setTimeout(()=>{
+            let timer=setTimeout(()=>{
               self.alert="normal"
+              timer=null
             },self.basetime)
           })
         },
         // delete删除数据
         deleteValue(e){
           let target=e.target
-          let id=target.parentNode.firstElementChild.innerHTML.trim()
+          let id=target.parentNode.firstElementChild.value.trim()
           let deleteResource=this.$resource(`/api/#{name}/value`)
           let inner={
             id
@@ -254,13 +310,15 @@ html(lang="zh-Cn")
             let outer=inner.parentNode
             outer.removeChild(inner)
 
-            var timer=setTimeout(()=>{
+            let timer=setTimeout(()=>{
               self.alert="normal"
+              timer=null
             },self.basetime)
           },res=>{
             self.alert="error"
-            var timer=setTimeout(()=>{
+            let timer=setTimeout(()=>{
               self.alert="normal"
+              timer=null
             },self.basetime)
           })
         }

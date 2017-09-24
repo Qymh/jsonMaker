@@ -56,6 +56,10 @@ table {
   border-spacing: 0;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 .btn-big {
   display: inline-block;
   height: 38px;

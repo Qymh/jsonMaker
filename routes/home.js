@@ -23,6 +23,7 @@ exports.post=(req,res,next)=>{
   let datas=req.body
   let inner={
     api:datas.api,
+    apiDetails:datas.apiDetails,
     time:datas.time
   }
 
@@ -30,6 +31,7 @@ exports.post=(req,res,next)=>{
     let inner={
       _id:result._id,
       api:result.api,
+      apiDetails:result.apiDetails,
       time:result.time,
       __v:result.__v
     }

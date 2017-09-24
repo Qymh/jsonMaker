@@ -25,7 +25,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(session({
   secret:'Qymh',
-  cookie:{maxAge:60*60*24*7*1000}
+  cookie:{maxAge:60*60*24*30*1000}
 }))
 app.use(message)
 app.use(user)

@@ -17,8 +17,8 @@ router.get('/',home.list)
       .post('/login',login.post)
 
       // 注册
-      .get('/register',register.list)
-      .post('/register',register.post)
+      // .get('/register',register.list)
+      // .post('/register',register.post)
 
       // 属性
       .get('/api/:name',api.list)

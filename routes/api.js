@@ -61,17 +61,18 @@ exports.getValue=(req,res,next)=>{
 // post提交值
 exports.postValue=(req,res,next)=>{
   var datas=req.body
-  var property=datas[datas.length-1].property
-  var value=datas[datas.length-1].value
   var obj={}
 
   Api.save(datas,(err,doc)=>{
-    obj={
-      _id:doc._id,
-      [property]:value,
-      _v:0
+    obj._id=doc._id
+    
+    for(let i=0;i<datas.length;i++){
+      obj[datas[i]['property']]=datas[i]['value']
     }
+    obj._v=0
+
     res.json(obj)
+
   })
 
 }
