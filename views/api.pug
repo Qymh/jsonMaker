@@ -239,7 +239,7 @@ html(lang="zh-Cn")
             self.alert="success"
 
             // 动态改变数据数组
-            self.values.push(res.data)
+            self.values.unshift(res.data)
 
             let timer=setTimeout(()=>{
               self.alert="normal"
