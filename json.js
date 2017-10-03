@@ -1,4 +1,6 @@
 const http=require('http')
+// const https=require('https')
+const fs=require('fs')
 const express=require('express')
 const bodyParser=require('body-parser')
 const session=require('express-session')
@@ -7,6 +9,11 @@ const message=require('./lib/message') // 信息提示中间件
 const user=require('./lib/middleware/user') // 用户信息中间件
 
 const app=express()
+
+// const options={
+//   key:fs.readFileSync('./cert/214284057360031.key'),
+//   cert:fs.readFileSync('./cert/214284057360031.pem')
+// }
 
 // 跨域
 app.all('*', function(req, res, next) {
@@ -31,8 +38,5 @@ app.use(message)
 app.use(user)
 app.use('/',router)
 app.use(express.static('./'))
-
-
-
 
 http.createServer(app).listen(520)
