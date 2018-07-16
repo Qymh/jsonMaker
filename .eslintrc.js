@@ -8,14 +8,23 @@ module.exports = {
     parser: 'babel-eslint'
   },
   extends: [
-    // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
-    // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
-    'plugin:vue/essential'
+    "eslint:recommended",
+    "plugin:vue/recommended",
+    "plugin:prettier/recommended"
   ],
-  // required to lint *.vue files
   plugins: [
     'vue'
   ],
-  // add your custom rules here
-  rules: {}
+  rules: {
+    // 不写冒号
+    "semi": [2, "never"],
+    // 可以输入console
+    "no-console": "off",
+    "vue/max-attributes-per-line": "off",
+    "prettier/prettier": ["error", { "semi": false ,"singleQuote": true}],
+    // 不解析html
+    "vue/no-parsing-error":0,
+    // 使用单引号
+    "quotes":[2,"single"]
+  }
 }

@@ -1,0 +1,39 @@
+.primary {
+  color: #409EFF;
+}
+
+.success {
+  color: #67C23A;
+}
+
+.warning {
+  color: #E6A23C;
+}
+
+.danger {
+  color: #F56C6C;
+}
+
+.infor {
+  color: #909399;
+}
+
+.bkPrimary {
+  background-color: #409EFF;
+}
+
+.bkSuccess {
+  background-color: #67C23A;
+}
+
+.bkWarning {
+  background-color: #E6A23C;
+}
+
+.bkDanger {
+  background-color: #F56C6C;
+}
+
+.bkInfor {
+  background-color: #909399;
+}

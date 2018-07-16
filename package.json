@@ -1,8 +1,8 @@
 {
-  "name": "{{ name }}",
+  "name": "jsonMaker",
   "version": "1.0.0",
-  "description": "{{ description }}",
-  "author": "{{ author }}",
+  "description": "jsonMaker dependon nuxt elementui mongoose5.x express",
+  "author": "Qymh",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -13,13 +13,24 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "element-ui": "^2.4.4",
+    "normalize.css": "^8.0.0",
     "nuxt": "^1.0.0"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.1",
-    "eslint": "^4.15.0",
+    "autoprefixer": "^8.6.5",
+    "babel-eslint": "^8.2.6",
+    "eslint": "^5.1.0",
+    "eslint-config-prettier": "^2.9.0",
     "eslint-friendly-formatter": "^3.0.0",
-    "eslint-loader": "^1.7.1",
-    "eslint-plugin-vue": "^4.0.0"
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-prettier": "^2.6.2",
+    "eslint-plugin-vue": "^4.7.0",
+    "node-sass": "^4.9.2",
+    "prettier": "^1.13.7",
+    "pug": "^2.0.3",
+    "pug-plain-loader": "^1.0.0",
+    "sass-loader": "^7.0.3",
+    "vue-style-loader": "^4.1.0"
   }
 }
