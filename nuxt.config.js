@@ -24,7 +24,8 @@ module.exports = {
   loading: { color: '#3B8070' },
   // 插件
   plugins:[
-    '~/plugins/element-ui'
+    '~/plugins/element-ui',
+    '~/plugins/widget'
   ],
   // webpack配置
   build: {

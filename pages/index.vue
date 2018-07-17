@@ -5,10 +5,7 @@
 
 <script>
 export default {
-  name: 'App',
-  mounted() {
-    console.log(1)
-  }
+  name: 'App'
 }
 </script>
 
