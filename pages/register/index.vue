@@ -16,13 +16,19 @@
           el-col.registerBox_title.primary 注册
         //- 帐号
         el-form-item(label="帐号" prop="account")
-          el-input(v-model="login.account" placeholder="帐号长度在5到12位")
+          el-input(v-model="login.account" placeholder="帐号长度在5到18位")
         //- 密码 
         el-form-item(label="密码" prop="password")
-          el-input(v-model="login.password" placeholder="密码长度在8到15位")
+          el-input(
+            v-model="login.password"
+            type="password"
+            placeholder="密码长度在8到18位")
         //- 确认密码
         el-form-item(label="确认密码" prop="passwordAgain")
-          el-input(v-model="login.passwordAgain" placeholder="密码长度在8到15位")
+          el-input(
+            v-model="login.passwordAgain"
+            type="password"
+            placeholder="密码长度在8到18位")
         //- 按钮
         el-form-item.registerBox_btnBox
           el-button(type="primary" @click="register") 注册
@@ -30,6 +36,7 @@
 
 <script>
 import format from '~/assets/lib/format'
+import user from '~/assets/actions/user'
 export default {
   name: 'Register',
   data() {
@@ -43,7 +50,7 @@ export default {
         // 帐号
         account: [
           { required: true, message: '请输入帐号', triger: 'blur' },
-          { min: 5, max: 12, message: '帐号长度在5到12位', triger: 'blur' }
+          { min: 5, max: 18, message: '帐号长度在5到18位', triger: 'blur' }
         ],
         // 密码
         password: [
@@ -66,10 +73,11 @@ export default {
       }
       this.$router.push('login')
     },
-    // 登陆
+    // 注册
     register() {
       this.$refs.myForm.validate(valid => {
         if (valid) {
+          user.register(this, this.login.account, this.login.passwordAgain)
           this.$message({
             message: '登陆成功',
             type: 'success',

@@ -21,7 +21,7 @@ module.exports = {
     'element-ui/lib/theme-chalk/index.css'
   ],
   // 加载颜色
-  loading: { color: '#3B8070' },
+  loading: { color: '#409EFF' },
   // 插件
   plugins:[
     '~/plugins/element-ui',

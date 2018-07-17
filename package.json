@@ -4,6 +4,12 @@
   "description": "jsonMaker dependon nuxt elementui mongoose5.x express",
   "author": "Qymh",
   "private": true,
+  "config": {
+    "nuxt": {
+      "host": "127.0.0.1",
+      "port": "8080"
+    }
+  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
@@ -13,9 +19,14 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "crypto-js": "^3.1.9-1",
     "element-ui": "^2.4.4",
-    "normalize.css": "^8.0.0",
-    "nuxt": "^1.0.0"
+    "express": "^4.16.3",
+    "mongoose": "^5.2.4",
+    "nuxt": "^1.0.0",
+    "sjcl": "^1.0.7"
   },
   "devDependencies": {
     "autoprefixer": "^8.6.5",

@@ -6,8 +6,8 @@ export default {
    * @param {Function} callback 回调函数
    */
   password(rule, value, callback) {
-    if (value.length < 8 || value.length > 15) {
-      callback(new Error('密码长度在8到15位'))
+    if (value.length < 8 || value.length > 18) {
+      callback(new Error('密码长度在8到18位'))
     } else {
       let reg = /^[0-9a-zA-Z]+$/
       if (!reg.test(value)) {
@@ -24,8 +24,8 @@ export default {
    * @param {Function} callback 回调函数
    */
   passwordAgain(rule, value, callback) {
-    if (value.length < 8 || value.length > 15) {
-      callback(new Error('密码长度在8到15位'))
+    if (value.length < 8 || value.length > 18) {
+      callback(new Error('密码长度在8到18位'))
     } else {
       let reg = /^[0-9a-zA-Z]+$/
       if (!reg.test(value)) {
