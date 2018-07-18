@@ -77,12 +77,22 @@ export default {
     register() {
       this.$refs.myForm.validate(valid => {
         if (valid) {
-          user.register(this, this.login.account, this.login.passwordAgain)
-          this.$message({
-            message: '登陆成功',
-            type: 'success',
-            duration: 2000
-          })
+          user
+            .register(this, this.login.account, this.login.passwordAgain)
+            .then(() => {
+              this.$message({
+                message: '注册成功',
+                type: 'success',
+                duration: 2000
+              })
+            })
+            .catch(err => {
+              this.$message({
+                message: err.error_message,
+                type: 'error',
+                duration: 2000
+              })
+            })
         }
       })
     }

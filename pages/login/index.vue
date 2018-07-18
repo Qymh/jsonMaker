@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import user from '~/assets/actions/user'
 export default {
   name: 'Login',
   data() {
@@ -65,11 +66,23 @@ export default {
     submit() {
       this.$refs.myForm.validate(valid => {
         if (valid) {
-          this.$message({
-            message: '登陆成功',
-            type: 'success',
-            duration: 2000
-          })
+          user
+            .login(this, this.login.account, this.login.password)
+            .then(data => {
+              console.log(data)
+              this.$message({
+                message: '登陆成功',
+                type: 'success',
+                duration: 2000
+              })
+            })
+            .catch(err => {
+              this.$message({
+                message: err.error_message,
+                type: 'error',
+                duration: 2000
+              })
+            })
         }
       })
     }

@@ -37,6 +37,9 @@ ax.interceptors.response.use(response => {
       })
     }
   }
+  return {
+    data: response.data
+  }
 })
 
 export default ax

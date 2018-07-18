@@ -13,5 +13,18 @@ export default {
           reject(err)
         })
     })
+  },
+
+  login(vm, account, password) {
+    return new Promise((resolve, reject) => {
+      http
+        .post(vm, api.login, { account, password })
+        .then(data => {
+          resolve(data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
   }
 }
