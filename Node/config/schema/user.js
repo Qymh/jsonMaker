@@ -2,8 +2,9 @@ exports.USERSCHEMACONFIG = {
   // 帐号
   account: {
     type: String || Number,
-    required: [true, '帐号不能为空'],
+    index: [true, '帐号已经存在'],
     unique: [true, '帐号已经存在'],
+    required: [true, '帐号不能为空'],
     minlength: [5, '帐号长度大于等于5'],
     maxlength: [18, '帐号长度小于等于18'],
     trim: true
@@ -19,8 +20,13 @@ exports.USERSCHEMACONFIG = {
   //  name
   name: {
     type: String || Number,
+    default: '未命名',
     minlength: [2, '姓名长度不能低于2'],
-    maxlength: [2, '姓名长度不能大于8'],
+    maxlength: [8, '姓名长度不能大于8'],
     trim: true
+  },
+  // token
+  token: {
+    type: String
   }
 }
