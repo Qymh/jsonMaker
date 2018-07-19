@@ -8,4 +8,4 @@ a Full Stack project which can make your own `JSON`
 
 ## back-end
 
-`express` `mongoose` `mongodb`
+`express` `mongoose` `mongodb` `jsonwebtoken`
