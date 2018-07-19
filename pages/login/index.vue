@@ -33,8 +33,8 @@ export default {
   data() {
     return {
       login: {
-        account: '',
-        password: ''
+        account: '123123',
+        password: '123123123'
       },
       rules: {
         // 帐号
@@ -69,7 +69,8 @@ export default {
           user
             .login(this, this.login.account, this.login.password)
             .then(data => {
-              console.log(data)
+              const { token } = data
+              this.$cookie.set('token', token)
               this.$message({
                 message: '登陆成功',
                 type: 'success',

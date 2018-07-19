@@ -7,9 +7,7 @@ module.exports = {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '一个json制造器' }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   // 全局css
   css: [
@@ -23,39 +21,40 @@ module.exports = {
   // 加载颜色
   loading: { color: '#409EFF' },
   // 插件
-  plugins:[
-    '~/plugins/element-ui',
-    '~/plugins/widget'
-  ],
+  plugins: ['~/plugins/element-ui', '~/plugins/widget'],
   // webpack配置
   build: {
-    extend (config, { isDev, isClient }) {
+    extend(config, { isDev, isClient }) {
       // eslint
       if (isDev && isClient) {
-        config.module.rules.push(
-          {
-            enforce: 'pre',
-            test: /\.(js|vue)$/,
-            loader: 'eslint-loader',
-            exclude: /(node_modules)/
-          }
-        )
+        config.module.rules.push({
+          enforce: 'pre',
+          test: /\.(js|vue)$/,
+          loader: 'eslint-loader',
+          exclude: /(node_modules)/
+        })
       }
       // scss
       config.module.rules.push(
         {
           test: /\.pug$/,
-          loader:'pug-plain-loader'
+          loader: 'pug-plain-loader'
         },
         {
           test: /\.scss$/,
-          use: ['vue-style-loader','css-loader','sass-loader','postcss-loader']
+          use: [
+            'vue-style-loader',
+            'css-loader',
+            'sass-loader',
+            'postcss-loader'
+          ]
         }
       )
     },
     // postcss配置
-    postcss: [
-      require('autoprefixer')()
-    ]
+    postcss: [require('autoprefixer')()]
+  },
+  router: {
+    middleware: 'authenticate'
   }
 }
