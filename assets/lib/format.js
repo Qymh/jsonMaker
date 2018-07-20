@@ -53,6 +53,7 @@ export default {
       if (!reg.test(value)) {
         callback(new Error('Api名字只能为英文'))
       }
+      callback()
     }
   }
 }
