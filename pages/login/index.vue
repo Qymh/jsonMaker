@@ -67,7 +67,7 @@ export default {
       this.$refs.myForm.validate(valid => {
         if (valid) {
           user
-            .login(this, this.login.account, this.login.password)
+            .login(this.login.account, this.login.password)
             .then(data => {
               const { token } = data
               this.$cookie.set('token', token)

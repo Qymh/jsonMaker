@@ -29,6 +29,14 @@ ax.interceptors.response.use(response => {
     if (status >= 200 && status <= 300) {
       console.log('---response data ---')
       console.log(data)
+      if (data.error_code) {
+        let vm = new Vue()
+        vm.$message({
+          type: 'error',
+          message: data.error_message,
+          duration: 2000
+        })
+      }
     } else {
       console.log('--- error ---')
       console.log(data)

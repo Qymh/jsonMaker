@@ -28,5 +28,13 @@ exports.USERSCHEMACONFIG = {
   // token
   token: {
     type: String
+  },
+  // schema配置
+  options: {
+    versionKey: 'v1.0',
+    timestamps: {
+      createdAt: 'createdAt',
+      updatedAt: 'updatedAt'
+    }
   }
 }

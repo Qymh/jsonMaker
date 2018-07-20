@@ -2,10 +2,10 @@ import http from '../lib/http'
 import * as api from '../lib/api'
 
 export default {
-  register(vm, account, password) {
+  register(account, password) {
     return new Promise((resolve, reject) => {
       http
-        .post(vm, api.register, { account, password })
+        .post(api.register, { account, password })
         .then(data => {
           resolve(data)
         })
@@ -15,10 +15,10 @@ export default {
     })
   },
 
-  login(vm, account, password) {
+  login(account, password) {
     return new Promise((resolve, reject) => {
       http
-        .post(vm, api.login, { account, password })
+        .post(api.login, { account, password })
         .then(data => {
           resolve(data)
         })

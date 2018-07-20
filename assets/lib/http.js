@@ -1,8 +1,10 @@
 import ax from './axios'
+import Vue from 'vue'
 
 export default {
-  post(vm, api, data) {
+  post(api, data) {
     return new Promise((resolve, reject) => {
+      const vm = new Vue()
       const loading = vm.$loading()
       ax({
         method: 'Post',

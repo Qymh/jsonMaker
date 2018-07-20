@@ -6,6 +6,11 @@ const UserPlugin = require('../plugins/user')
  * @param {String | Number} account 帐号
  * @param {String | Number} password 密码
  */
+/**
+ * 注册
+ * @param {String | Number} account 帐号
+ * @param {String | Number} password 密码
+ */
 exports.register = (account, password) => {
   return new Promise((resolve, reject) => {
     const User = new UserModel({
