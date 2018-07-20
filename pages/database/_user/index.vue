@@ -35,15 +35,26 @@
               el-button(
                 type="text" size="small"
                 @click.native.prevent="deleteApi(scope.$index, tableData)") 删除
+        div {{test}}
 </template>
 
 <script>
 import format from '~/assets/lib/format'
+import api from '~/assets/actions/api'
 export default {
   name: 'Database',
+  asyncData() {
+    return api.getApi().then(data => {
+      return {
+        userName: 'Qymh',
+        test: data
+      }
+    })
+  },
   data() {
     return {
-      userName: 'Qymh',
+      userName: '',
+      test: [],
       tableData: [
         {
           apiName: 'test1',
@@ -74,7 +85,14 @@ export default {
   methods: {
     createApi() {
       this.$refs.myForm.validate(valid => {
-        console.log(valid)
+        if (valid) {
+          api
+            .addApi(this.createApiForm.apiName, this.createApiForm.description)
+            .then(data => {
+              console.log(data)
+            })
+            .catch(() => {})
+        }
       })
     },
     deleteApi(index, database) {
