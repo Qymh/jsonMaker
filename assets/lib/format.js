@@ -37,5 +37,22 @@ export default {
       callback()
     }
     callback()
+  },
+
+  /**
+   * 只能是英文
+   * @param {Object} rule 规则
+   * @param {Any} value 输入的值
+   * @param {Function} callback 回调函数
+   */
+  onlyEng(rule, value, callback) {
+    if (value.length < 3 || value.value > 18) {
+      callback(new Error('Api长度在3到18位置'))
+    } else {
+      let reg = /^[a-zA-Z]+$/
+      if (!reg.test(value)) {
+        callback(new Error('Api名字只能为英文'))
+      }
+    }
   }
 }
