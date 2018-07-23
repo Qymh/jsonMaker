@@ -18,10 +18,10 @@ exports.add = async (req, res) => {
 }
 
 exports.get = async (req, res) => {
-  console.log(1)
   await api
     .get()
     .then(doc => {
+      doc = apiPlugin.generateGetApi(doc)
       res.json(doc)
     })
     .catch(() => {

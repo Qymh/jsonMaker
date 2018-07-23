@@ -10,3 +10,9 @@ exports.code = {
   wrongPassword: 10002,
   outDateToken: 10003
 }
+
+// session
+exports.session = {
+  secret: 'Qymh',
+  maxAge: 10000
+}
