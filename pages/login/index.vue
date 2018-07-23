@@ -28,6 +28,7 @@
 
 <script>
 import user from '~/assets/actions/user'
+import { mapActions } from 'vuex'
 export default {
   name: 'Login',
   data() {
@@ -51,6 +52,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      setSystem: 'setSystem'
+    }),
     // 导航选择
     handleSelect(key) {
       if (key === 2) {
@@ -69,13 +73,13 @@ export default {
           user
             .login(this.login.account, this.login.password)
             .then(data => {
-              const { token } = data
-              this.$cookie.set('token', token)
               this.$message({
                 message: '登陆成功',
                 type: 'success',
                 duration: 2000
               })
+              this.$cookie.set('token', data.token)
+              this.setSystem({ key: '_token', value: data.token })
             })
             .catch(err => {
               this.$message({

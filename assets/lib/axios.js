@@ -10,9 +10,6 @@ const ax = axios.create({
 // 请求拦截
 ax.interceptors.request.use(config => {
   const { data } = config
-  const vm = new Vue()
-  const token = vm.$cookie.get('token')
-  config.headers.common['Authenticate'] = token
   if (APPCONFIG.isDebug) {
     console.log(`serverApi:${config.baseURL}${config.url}`)
     if (Object.keys(data).length > 0) {

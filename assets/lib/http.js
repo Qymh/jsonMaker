@@ -2,10 +2,20 @@ import ax from './axios'
 import Vue from 'vue'
 
 export default {
-  post(api, data) {
+  /**
+   * post公用函数
+   * @param {String} api api接口
+   * @param {Object} data 数据
+   * @param {Boolean} isLoading 是否需要加载
+   */
+  post(api, data, isLoading = false) {
     return new Promise((resolve, reject) => {
-      const vm = new Vue()
-      const loading = vm.$loading()
+      let vm = ''
+      let loading = ''
+      if (isLoading) {
+        vm = new Vue()
+        loading = vm.$loading()
+      }
       ax({
         method: 'Post',
         url: api,
@@ -13,10 +23,10 @@ export default {
       }).then(res => {
         let { data } = res
         if (data.error_code) {
-          loading.close()
+          isLoading && loading.close()
           reject(data)
         } else {
-          loading.close()
+          isLoading && loading.close()
           resolve(data)
         }
       })

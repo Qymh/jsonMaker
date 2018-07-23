@@ -2,10 +2,15 @@ import http from '../lib/http'
 import * as api from '../lib/api'
 
 export default {
+  /**
+   * 添加api
+   * @param {String} apiName api名字
+   * @param {String} description api描述
+   */
   addApi(apiName, description) {
     return new Promise((resolve, reject) => {
       http
-        .post(api.addApi, { apiName, description })
+        .post(api.addApi, { apiName, description }, true)
         .then(data => {
           resolve(data)
         })
@@ -15,8 +20,10 @@ export default {
     })
   },
 
+  /**
+   * 获取api
+   */
   getApi() {
-    console.log('123')
     return new Promise((resolve, reject) => {
       http
         .post(api.getApi, {})

@@ -9,69 +9,52 @@
         el-form(
           ref="myForm"
           :inline="true"
-          :model="createApiForm"
-          :rules="createApiFormRules")
+          :model="addApiForm"
+          :rules="addApiFormRules")
           el-form-item(label="api名字" prop="apiName")
             el-input(
-              v-model="createApiForm.apiName"
+              v-model="addApiForm.apiName"
               placeholder="Api名字")
           el-form-item(label="描述" prop="description")
             el-input(
-              v-model="createApiForm.description"
+              v-model="addApiForm.description"
               placeholder="描述")
           el-form-item
             el-button(
-              @click="createApi"
+              @click="addApi"
               type="primary") 创建
       .database-option-table
         el-table(
           border
-          :data="tableData")
+          :data="apiInfors")
           el-table-column(prop="apiName" label="api名字" width="150")
-          el-table-column(prop="createdTime" label="创建时间" width="250")
+          el-table-column(prop="createdAt" label="创建时间" width="250")
           el-table-column(prop="description" label="描述")
           el-table-column(fixed="right" label="删除" width="120")
             template(slot-scope="scope")
               el-button(
                 type="text" size="small"
                 @click.native.prevent="deleteApi(scope.$index, tableData)") 删除
-        div {{test}}
 </template>
 
 <script>
 import format from '~/assets/lib/format'
-import api from '~/assets/actions/api'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Database',
-  asyncData() {
-    return api.getApi().then(data => {
-      return {
-        userName: 'Qymh',
-        test: data
-      }
-    })
+  async fetch({ store }) {
+    // 获取api
+    await store.dispatch('getApiInfors')
   },
   data() {
     return {
-      userName: '',
-      test: [],
-      tableData: [
-        {
-          apiName: 'test1',
-          createdTime: '2018-07-20 13:51:20',
-          description: '测试接口1'
-        },
-        {
-          apiName: 'test2',
-          createdTime: '2018-07-20 13:53:13',
-          description: '测试接口2'
-        }
-      ],
-      createApiForm: {
+      // 添加api的绑定数据
+      addApiForm: {
         apiName: '',
         description: ''
       },
-      createApiFormRules: {
+      // 添加api的规则
+      addApiFormRules: {
         apiName: [
           { required: true, message: '请输入Api的名字', trigger: 'blur' },
           { validator: format.onlyEng.bind(this), trigger: 'blur' }
@@ -82,16 +65,26 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters({
+      apiInfors: 'apiInfors'
+    })
+  },
   methods: {
-    createApi() {
+    ...mapActions({
+      addApiInfors: 'addApiInfors'
+    }),
+    addApi() {
       this.$refs.myForm.validate(valid => {
         if (valid) {
-          api
-            .addApi(this.createApiForm.apiName, this.createApiForm.description)
-            .then(data => {
-              console.log(data)
+          const { apiName, description } = this.addApiForm
+          this.addApiInfors({ apiName, description }).then(() => {
+            this.$message({
+              type: 'success',
+              message: '添加成功',
+              duration: 2000
             })
-            .catch(() => {})
+          })
         }
       })
     },
