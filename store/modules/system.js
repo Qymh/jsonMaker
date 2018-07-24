@@ -1,11 +1,13 @@
 const state = {
-  _userName: 'Qymh',
+  _userName: '',
+  _account: '',
   _token: '',
   _isFirstIn: true
 }
 
 const getters = {
   userName: state => state._userName,
+  account: state => state._account,
   token: state => state._token,
   isFirstIn: state => state._isFirstIn
 }
@@ -18,7 +20,7 @@ const mutations = {
 
 const actions = {
   setSystem({ commit }, { key, value }) {
-    commit('_getSystem', { key, value })
+    commit('_setSystem', { key, value })
   }
 }
 

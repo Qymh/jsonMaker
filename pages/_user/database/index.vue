@@ -46,6 +46,9 @@ export default {
     // 获取api
     await store.dispatch('getApiInfors')
   },
+  meta: {
+    auth: true
+  },
   data() {
     return {
       // 添加api的绑定数据
@@ -67,7 +70,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      apiInfors: 'apiInfors'
+      apiInfors: 'apiInfors',
+      userName: 'userName'
     })
   },
   methods: {

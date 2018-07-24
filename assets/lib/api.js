@@ -1,3 +1,6 @@
+// 获取全局属性
+export const system = '/api/system'
+
 // 注册
 export const register = '/api/register'
 // 登陆

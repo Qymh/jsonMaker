@@ -6,11 +6,12 @@ export default {
    * 注册
    * @param {String|Number} account 帐号
    * @param {String|Number}} password 密码
+   * @param {String|Number}} userName 用户名
    */
-  register(account, password) {
+  register(account, password, userName) {
     return new Promise((resolve, reject) => {
       http
-        .post(api.register, { account, password })
+        .post(api.register, { account, password, userName })
         .then(data => {
           resolve(data)
         })

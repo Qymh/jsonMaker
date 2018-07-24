@@ -28,14 +28,15 @@
 
 <script>
 import user from '~/assets/actions/user'
+import system from '~/assets/actions/system'
 import { mapActions } from 'vuex'
 export default {
   name: 'Login',
   data() {
     return {
       login: {
-        account: '123123',
-        password: '123123123'
+        account: 'admin',
+        password: '12345678'
       },
       rules: {
         // 帐号
@@ -80,6 +81,19 @@ export default {
               })
               this.$cookie.set('token', data.token)
               this.setSystem({ key: '_token', value: data.token })
+              system
+                .getSystem(data.token)
+                .then(data => {
+                  const { userName, account } = data
+                  this.setSystem({ key: '_userName', value: userName })
+                  this.setSystem({ key: '_account', value: account })
+                  this.setSystem({ key: '_token', value: data.token })
+                  this.setSystem({ key: '_isFirstIn', value: false })
+                  this.$router.push({
+                    path: `/${userName}/database`
+                  })
+                })
+                .catch(() => {})
             })
             .catch(err => {
               this.$message({

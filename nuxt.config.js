@@ -21,7 +21,12 @@ module.exports = {
   // 加载颜色
   loading: { color: '#409EFF' },
   // 插件
-  plugins: ['~/plugins/element-ui', '~/plugins/widget'],
+  plugins: [
+    // element-ui
+    { src: '~/plugins/element-ui', ssr: false },
+    // widget
+    { src: '~/plugins/widget', ssr: false }
+  ],
   // webpack配置
   build: {
     extend(config, { isDev, isClient }) {
@@ -34,12 +39,13 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-      // scss
       config.module.rules.push(
+        // pug
         {
           test: /\.pug$/,
           loader: 'pug-plain-loader'
         },
+        // scss
         {
           test: /\.scss$/,
           use: [
@@ -55,6 +61,7 @@ module.exports = {
     postcss: [require('autoprefixer')()]
   },
   router: {
+    // 认证中间件
     middleware: 'authenticate'
   }
 }

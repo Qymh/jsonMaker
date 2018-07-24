@@ -17,6 +17,9 @@
         //- 帐号
         el-form-item(label="帐号" prop="account")
           el-input(v-model="login.account" placeholder="帐号长度在5到18位")
+        //- 名字
+        el-form-item(label="名字" prop="userName")
+          el-input(v-model="login.userName" placeholder="取个响亮的名字吧")
         //- 密码 
         el-form-item(label="密码" prop="password")
           el-input(
@@ -43,6 +46,7 @@ export default {
     return {
       login: {
         account: '',
+        userName: '',
         password: '',
         passwordAgain: ''
       },
@@ -51,6 +55,11 @@ export default {
         account: [
           { required: true, message: '请输入帐号', triger: 'blur' },
           { min: 5, max: 18, message: '帐号长度在5到18位', triger: 'blur' }
+        ],
+        // 名字
+        userName: [
+          { required: true, message: '请输入名字', triger: 'blur' },
+          { min: 2, max: 8, message: '名字长度在2到8位', triger: 'blur' }
         ],
         // 密码
         password: [
@@ -78,7 +87,11 @@ export default {
       this.$refs.myForm.validate(valid => {
         if (valid) {
           user
-            .register(this.login.account, this.login.passwordAgain)
+            .register(
+              this.login.account,
+              this.login.password,
+              this.login.userName
+            )
             .then(() => {
               this.$message({
                 message: '注册成功',
