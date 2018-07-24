@@ -6,7 +6,7 @@ const UserSchema = new Schema(
   {
     account: config.account,
     password: config.password,
-    name: config.name,
+    userName: config.userName,
     token: config.token
   },
   config.options

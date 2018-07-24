@@ -1,7 +1,7 @@
 const ApiModel = require('../schema/api')
 
 /**
- *
+ * 添加api
  * @param {String} apiName api名字
  * @param {String} description api描述
  */
@@ -19,13 +19,19 @@ exports.add = (apiName, description) => {
   })
 }
 
+/**
+ * 获取api
+ */
 exports.get = () => {
   return new Promise((resolve, reject) => {
     ApiModel.find({ apiName: /\w*/g })
       .sort({ createdAt: 'desc' })
       .exec((err, doc) => {
-        if (err) reject({ error_code: err.code, error_message: err.message })
-        resolve(doc)
+        if (err) {
+          reject({ error_code: err.code, error_message: err.message })
+        } else {
+          resolve(doc)
+        }
       })
   })
 }

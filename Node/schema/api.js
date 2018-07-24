@@ -5,7 +5,8 @@ const config = require('../config/schema/api').APISCHEMACONFIG
 const ApiSchema = new Schema(
   {
     apiName: config.apiName,
-    description: config.description
+    description: config.description,
+    userId: config.userId
   },
   config.options
 )

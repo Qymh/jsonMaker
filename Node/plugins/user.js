@@ -1,24 +1,46 @@
 const jwt = require('jsonwebtoken')
 const nodeconfig = require('../config/nodeconfig')
+const errors = require('../errors/common')
 
 // 处理用户登陆
-exports.dealLogin = (user, passwordNow) => {
-  const err = {}
+exports.dealLogin = user => {
+  const userLater = {}
+  const token = this.generateToken(user)
+  userLater.token = token
+  return userLater
+}
+
+// 处理用户登陆错误
+exports.dealLoginError = (user, passwordNow) => {
+  const errLater = {}
   if (user === null) {
-    err.error_message = '用户不存在'
-    err.error_code = nodeconfig.code.noUser
+    errLater.error_message = '用户不存在'
+    errLater.error_code = nodeconfig.code.noUser
   } else if (user.password !== passwordNow) {
-    err.error_message = '帐号密码错误'
-    err.error_code = nodeconfig.code.wrongPassword
+    errLater.error_message = '密码错误'
+    errLater.error_code = nodeconfig.code.wrongPassword
   }
-  return err
+  return errLater
+}
+
+// 处理用户注册错误
+exports.dealRegisterError = err => {
+  const errLater = {}
+  if (err.message.indexOf('duplicate key error') > -1) {
+    errLater.error_message = '帐号已存在'
+    errLater.error_code = nodeconfig.code.existData
+    return errLater
+  }
+  if (err.errors) {
+    return errors.dealValidatorData(err)
+  }
 }
 
 // 构造token
 exports.generateToken = user => {
   const token = jwt.sign(
     {
-      data: user.account
+      data: user.id
     },
     nodeconfig.token.secret,
     {
@@ -33,7 +55,7 @@ exports.generateToken = user => {
 exports.verifyToken = token => {
   let code = ''
   try {
-    jwt.verify(token, nodeconfig.token.secret)
+    return jwt.verify(token, nodeconfig.token.secret)
   } catch (error) {
     code = nodeconfig.code.outDateToken
   }

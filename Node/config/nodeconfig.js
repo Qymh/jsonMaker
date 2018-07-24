@@ -6,9 +6,18 @@ exports.token = {
 
 // 错误code
 exports.code = {
+  // 用户不存在
   noUser: 10001,
+  // 密码错误
   wrongPassword: 10002,
-  outDateToken: 10003
+  // token过期
+  outDateToken: 10003,
+  // 检验不符合规则
+  notValidate: 10004,
+  // 已存在的数据
+  existData: 10005,
+  // 未知错误
+  unknown: 100099
 }
 
 // session
