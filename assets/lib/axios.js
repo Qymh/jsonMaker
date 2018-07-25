@@ -11,8 +11,8 @@ const ax = axios.create({
 
 // 请求拦截
 ax.interceptors.request.use(config => {
-  if (process.env.TOKEN) {
-    config.headers.common['authenticate'] = process.env.TOKEN
+  if (process.TOKEN) {
+    config.headers.common['authenticate'] = process.TOKEN
   }
   const { data } = config
   if (APPCONFIG.isDebug) {

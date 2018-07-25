@@ -82,13 +82,7 @@ export default {
       this.$refs.myForm.validate(valid => {
         if (valid) {
           const { apiName, description } = this.addApiForm
-          this.addApiInfors({ apiName, description }).then(() => {
-            this.$message({
-              type: 'success',
-              message: '添加成功',
-              duration: 2000
-            })
-          })
+          this.addApiInfors({ apiName, description })
         }
       })
     },

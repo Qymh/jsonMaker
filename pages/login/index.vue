@@ -87,10 +87,9 @@ export default {
                   const { userName, account } = data
                   this.setSystem({ key: '_userName', value: userName })
                   this.setSystem({ key: '_account', value: account })
-                  this.setSystem({ key: '_token', value: data.token })
                   this.setSystem({ key: '_isFirstIn', value: false })
                   this.$router.push({
-                    path: `/${userName}/database`
+                    path: `/${userName}`
                   })
                 })
                 .catch(() => {})

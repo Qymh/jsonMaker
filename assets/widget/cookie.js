@@ -34,7 +34,7 @@ Cookie.install = Vue => {
      * 删除cookie
      * @param {String} key 键
      */
-    deleteCookie(key) {
+    delete(key) {
       let now = new Date()
       now.setDate(now.getDate() - 1)
 

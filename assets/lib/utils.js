@@ -5,7 +5,7 @@
  */
 export const getCookieFromReq = (req, key) => {
   let cookie = req.headers.cookie
-  let bool = cookie.indexOf(key) > -1
+  let bool = cookie && cookie.indexOf(key) > -1
   if (bool) {
     let start = cookie.indexOf(key) + key.length + 1
     let end = cookie.indexOf(';', start)

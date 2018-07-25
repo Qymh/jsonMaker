@@ -23,9 +23,9 @@ module.exports = {
   // 插件
   plugins: [
     // element-ui
-    { src: '~/plugins/element-ui', ssr: false },
+    { src: '~/plugins/element-ui' },
     // widget
-    { src: '~/plugins/widget', ssr: false }
+    { src: '~/plugins/widget' }
   ],
   // webpack配置
   build: {
