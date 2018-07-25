@@ -11,6 +11,4 @@ const ApiSchema = new Schema(
   config.options
 )
 
-const ApiModel = mongoose.model('ApiModel', ApiSchema)
-
-module.exports = ApiModel
+module.exports = ApiSchema

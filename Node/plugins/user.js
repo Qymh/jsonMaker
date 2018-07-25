@@ -53,11 +53,15 @@ exports.generateToken = user => {
 
 // 解析token
 exports.verifyToken = token => {
-  let code = ''
   try {
-    return jwt.verify(token, nodeconfig.token.secret)
+    const data = jwt.verify(token, nodeconfig.token.secret)
+    const { iat, exp } = data
+    if (exp > iat) {
+      return data
+    } else {
+      return nodeconfig.code.outDateToken
+    }
   } catch (error) {
-    code = nodeconfig.code.outDateToken
+    return ''
   }
-  return code
 }

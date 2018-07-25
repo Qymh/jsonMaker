@@ -1,35 +1,51 @@
-const ApiModel = require('../schema/api')
+const UserPlugins = require('../plugins/user')
+const ApiPlugins = require('../plugins/api')
+const CommonPlugins = require('../plugins/common')
+const UserModel = require('../schema/user')
 
 /**
  * 添加api
  * @param {String} apiName api名字
  * @param {String} description api描述
+ * @param {String} token token值
  */
-exports.add = (apiName, description) => {
+exports.add = (apiName, description, token) => {
+  const id = UserPlugins.verifyToken(token).data
+  UserModel.find({ _id: id }).exec((err, doc) => {
+  })
   return new Promise((resolve, reject) => {
-    const Api = new ApiModel({
-      apiName,
-      description
-    })
-
-    Api.save((err, doc) => {
-      if (err) reject({ error_code: err.code, error_message: err.message })
-      resolve(doc)
-    })
+    // const Api = new ApiModel({
+    //   apiName,
+    //   description,
+    //   userId: id
+    // })
+    // Api.save((err, doc) => {
+    //   if (err) {
+    //     err = ApiPlugins.dealAddError(err)
+    //     reject(err)
+    //   } else {
+    //     doc = ApiPlugins.dealAdd(doc)
+    //     resolve(doc)
+    //   }
+    // })
   })
 }
 
 /**
  * 获取api
+ * @param {String} token token值
  */
-exports.get = () => {
+exports.get = token => {
   return new Promise((resolve, reject) => {
-    ApiModel.find({ apiName: /\w*/g })
+    const id = UserPlugins.verifyToken(token).data
+    UserModel.find({ _id: id, api: { apiName: /\w*/g } })
       .sort({ createdAt: 'desc' })
       .exec((err, doc) => {
         if (err) {
-          reject({ error_code: err.code, error_message: err.message })
+          err = CommonPlugins.dealError(err)
+          reject(err)
         } else {
+          doc = ApiPlugins.dealGet(doc)
           resolve(doc)
         }
       })

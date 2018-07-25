@@ -17,7 +17,9 @@ exports.code = {
   // 已存在的数据
   existData: 10005,
   // 未知错误
-  unknown: 100099
+  unknown: 100099,
+  // 未知错误文字
+  unknownText: '未知错误'
 }
 
 // session

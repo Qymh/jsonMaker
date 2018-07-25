@@ -1,30 +1,29 @@
 const api = require('../lib/api')
-const apiPlugin = require('../plugins/api')
-const errors = require('../errors/common')
 
+// 添加
 exports.add = async (req, res) => {
   const data = req.body
   const { apiName, description } = data
+  const token = res.locals.token
   await api
-    .add(apiName, description)
+    .add(apiName, description, token)
     .then(doc => {
-      doc = apiPlugin.generateAddApi(doc)
       res.json(doc)
     })
     .catch(err => {
-      err = errors.dealExistData('api', err)
-      errors.responseError(res, err)
+      res.json(err)
     })
 }
 
+// 获取
 exports.get = async (req, res) => {
+  const token = res.locals.token
   await api
-    .get()
+    .get(token)
     .then(doc => {
-      doc = apiPlugin.generateGetApi(doc)
       res.json(doc)
     })
-    .catch(() => {
-      console.log(1)
+    .catch(err => {
+      res.json(err)
     })
 }

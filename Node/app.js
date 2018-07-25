@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const session = require('express-session')
 const authenticate = require('./middleware/authenticate')
 const db = mongoose.connection
 const router = require('./router')
@@ -20,6 +21,14 @@ db.once('open', () => {
 
 app.post('*', authenticate.authenticate)
 app.use(bodyParser.json())
+app.use(
+  session({
+    secret: 'Qymh',
+    cookie: {
+      maxAge: 3600 * 24 * 7
+    }
+  })
+)
 app.use('/api', router)
 
 app.listen(5766)

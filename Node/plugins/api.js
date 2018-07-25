@@ -1,9 +1,10 @@
-exports.generateAddApi = obj => {
-  const { apiName, createdAt, description } = obj
-  // let computedCreatedAt = ''
-  const year = createdAt.getYear()
+const nodeconfig = require('../config/nodeconfig')
+const errors = require('../errors/common')
 
-  console.log(year)
+// 处理加入Api
+exports.dealAdd = obj => {
+  const { apiName, createdAt, description } = obj
+
   return {
     apiName,
     createdAt,
@@ -11,7 +12,21 @@ exports.generateAddApi = obj => {
   }
 }
 
-exports.generateGetApi = arr => {
+// 处理加入Api出错
+exports.dealAddError = err => {
+  const errLater = {}
+  if (err.message.indexOf('duplicate key error') > -1) {
+    errLater.error_message = 'api已存在'
+    errLater.error_code = nodeconfig.code.existData
+    return errLater
+  }
+  if (err.errors) {
+    return errors.dealValidatorData(err)
+  }
+}
+
+// 处理获取Api
+exports.dealGet = arr => {
   let laterArr = []
   // 重新构造时间
   for (const obj of arr) {
