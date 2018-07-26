@@ -14,12 +14,13 @@ app.all('*', function(req, res, next) {
   next()
 })
 
-mongoose.connect('mongodb://localhost/test')
+mongoose.connect('mongodb://localhost/Qymh')
 db.once('open', () => {
   console.log('ready')
 })
 
 app.post('*', authenticate.authenticate)
+app.delete('*', authenticate.authenticate)
 app.use(bodyParser.json())
 app.use(
   session({

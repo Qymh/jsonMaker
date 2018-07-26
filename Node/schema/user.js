@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const ApiSchema = require('../schema/api')
+const ApiSchema = require('./api')
 const config = require('../config/schema/user').USERSCHEMACONFIG
 
 const UserSchema = new Schema(
@@ -9,11 +9,9 @@ const UserSchema = new Schema(
     password: config.password,
     userName: config.userName,
     token: config.token,
-    api: ApiSchema
+    api: [ApiSchema]
   },
   config.options
 )
 
-const UserModel = mongoose.model('UserModel', UserSchema)
-
-module.exports = UserModel
+module.exports = UserSchema

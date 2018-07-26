@@ -6,7 +6,10 @@ const system = require('./actions/system')
 
 router.post('/register', user.register).post('/login', user.login)
 
-router.post('/addApi', api.add).post('/getApi', api.get)
+router
+  .post('/addApi', api.add)
+  .post('/getApi', api.get)
+  .delete('/deleteApi', api.delete)
 
 router.post('/system', system.get)
 

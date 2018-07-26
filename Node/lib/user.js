@@ -1,4 +1,4 @@
-const UserModel = require('../schema/user')
+const UserModel = require('../model/user')
 const UserPlugin = require('../plugins/user')
 
 /**

@@ -3,12 +3,24 @@ const errors = require('../errors/common')
 
 // 处理加入Api
 exports.dealAdd = obj => {
-  const { apiName, createdAt, description } = obj
+  try {
+    const { apiName, createdAt, description } = obj
+    let computedCreatedAt = ''
+    const year = createdAt.getFullYear()
+    const month = createdAt.getMonth() + 1
+    const day = createdAt.getDate()
+    const hour = createdAt.getHours()
+    const minute = createdAt.getMinutes()
+    const second = createdAt.getSeconds()
+    computedCreatedAt = `${year}年${month}月${day}日${hour}点${minute}分${second}秒`
 
-  return {
-    apiName,
-    createdAt,
-    description
+    return {
+      apiName,
+      createdAt: computedCreatedAt,
+      description
+    }
+  } catch (e) {
+    return {}
   }
 }
 
@@ -27,23 +39,28 @@ exports.dealAddError = err => {
 
 // 处理获取Api
 exports.dealGet = arr => {
-  let laterArr = []
-  // 重新构造时间
-  for (const obj of arr) {
-    const { apiName, createdAt, description } = obj
-    let computedCreatedAt = ''
-    const year = createdAt.getFullYear()
-    const month = createdAt.getMonth() + 1
-    const day = createdAt.getDate()
-    const hour = createdAt.getHours()
-    const minute = createdAt.getMinutes()
-    const second = createdAt.getSeconds()
-    computedCreatedAt = `${year}年${month}月${day}日${hour}点${minute}分${second}秒`
-    laterArr.push({
-      apiName,
-      createdAt: computedCreatedAt,
-      description
-    })
+  try {
+    let laterArr = []
+    // 重新构造时间
+    for (const obj of arr) {
+      const { apiName, createdAt, description, id } = obj
+      let computedCreatedAt = ''
+      const year = createdAt.getFullYear()
+      const month = createdAt.getMonth() + 1
+      const day = createdAt.getDate()
+      const hour = createdAt.getHours()
+      const minute = createdAt.getMinutes()
+      const second = createdAt.getSeconds()
+      computedCreatedAt = `${year}年${month}月${day}日${hour}点${minute}分${second}秒`
+      laterArr.push({
+        apiName,
+        createdAt: computedCreatedAt,
+        description,
+        apiId: id
+      })
+    }
+    return laterArr
+  } catch (e) {
+    return []
   }
-  return laterArr
 }

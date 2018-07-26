@@ -1,4 +1,4 @@
-const UserModel = require('../schema/user')
+const UserModel = require('../model/user')
 const UserPlugins = require('../plugins/user')
 const SystemPlugins = require('../plugins/system')
 
@@ -13,9 +13,10 @@ exports.get = token => {
       if (err) {
         err = SystemPlugins.dealSystemErrors(err)
         reject(err)
+      } else {
+        doc = SystemPlugins.dealSystem(doc)
+        resolve(doc)
       }
-      doc = SystemPlugins.dealSystem(doc)
-      resolve(doc)
     })
   })
 }

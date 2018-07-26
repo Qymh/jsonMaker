@@ -1,5 +1,4 @@
 const user = require('../lib/user')
-const errors = require('../errors/common')
 
 // 注册
 exports.register = async (req, res) => {

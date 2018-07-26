@@ -6,7 +6,6 @@ const nodeconfig = require('../config/nodeconfig')
 exports.authenticate = (req, res, next) => {
   const token = req.headers.authenticate
   res.locals.token = token
-  console.log(token)
   if (token) {
     const code = userPlugin.verifyToken(token)
     if (code === nodeconfig.code.outDateToken) {
