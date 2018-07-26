@@ -21,12 +21,12 @@
               placeholder="描述")
           el-form-item
             el-button(
-              @click="addApi"
+              @click="doAddApi"
               type="primary") 创建
       .database-option-table
         el-table(
           border
-          :data="apiInfors")
+          :data="api")
           el-table-column(prop="apiName" label="api名字" width="150")
           el-table-column(prop="createdAt" label="创建时间" width="250")
           el-table-column(prop="description" label="描述")
@@ -34,7 +34,7 @@
             template(slot-scope="scope")
               el-button(
                 type="text" size="small"
-                @click.native.prevent="deleteApi(scope.$index, tableData)") 删除
+                @click.prevent="doDeleteApi(scope.$index,api[scope.$index].apiId)") 删除
 </template>
 
 <script>
@@ -44,7 +44,7 @@ export default {
   name: 'Database',
   async fetch({ store }) {
     // 获取api
-    await store.dispatch('getApiInfors')
+    await store.dispatch('getApi')
   },
   meta: {
     auth: true
@@ -70,25 +70,25 @@ export default {
   },
   computed: {
     ...mapGetters({
-      apiInfors: 'apiInfors',
+      api: 'api',
       userName: 'userName'
     })
   },
   methods: {
     ...mapActions({
-      addApiInfors: 'addApiInfors'
+      addApi: 'addApi',
+      deleteApi: 'deleteApi'
     }),
-    addApi() {
+    doAddApi() {
       this.$refs.myForm.validate(valid => {
         if (valid) {
           const { apiName, description } = this.addApiForm
-          this.addApiInfors({ apiName, description })
+          this.addApi({ apiName, description })
         }
       })
     },
-    deleteApi(index, database) {
-      console.log(index)
-      console.log(database)
+    doDeleteApi(index, apiId) {
+      this.deleteApi({ apiId, index })
     }
   }
 }

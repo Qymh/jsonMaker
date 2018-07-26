@@ -1,37 +1,52 @@
 import api from '~/assets/actions/api'
 
 const state = {
-  _apiInfors: []
+  _api: []
 }
 
 const getters = {
-  apiInfors: state => state._apiInfors
+  api: state => state._api
 }
 
 const mutations = {
-  _getApiInfors(state, arr) {
-    state._apiInfors = arr
+  _getApi(state, arr) {
+    state._api = arr
   },
-  _addApiInfors(state, data) {
-    state._apiInfors.unshift(data)
+  _addApi(state, data) {
+    state._api.unshift(data)
+  },
+  _deleteApi(state, index) {
+    state._api.splice(index, 1)
   }
 }
 
 const actions = {
-  async getApiInfors({ commit }) {
+  // 获取api
+  async getApi({ commit }) {
     await api
       .getApi()
       .then(arr => {
-        commit('_getApiInfors', arr)
+        commit('_getApi', arr)
       })
       .catch(() => {})
   },
-  async addApiInfors({ commit }, obj) {
+  // 添加api
+  async addApi({ commit }, obj) {
     const { apiName, description } = obj
     await api
       .addApi(apiName, description)
       .then(data => {
-        commit('_addApiInfors', data)
+        commit('_addApi', data)
+      })
+      .catch(() => {})
+  },
+  // 删除api
+  async deleteApi({ commit }, obj) {
+    const { apiId, index } = obj
+    await api
+      .deleteApi(apiId)
+      .then(() => {
+        commit('_deleteApi', index)
       })
       .catch(() => {})
   }

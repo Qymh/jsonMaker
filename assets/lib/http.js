@@ -3,12 +3,12 @@ import Vue from 'vue'
 
 export default {
   /**
-   * post公用函数
+   * ajax公用函数
    * @param {String} api api接口
    * @param {Object} data 数据
    * @param {Boolean} isLoading 是否需要加载
    */
-  post(api, data, isLoading = false) {
+  ajax(method, api, data, isLoading = false) {
     return new Promise((resolve, reject) => {
       let vm = ''
       let loading = ''
@@ -17,7 +17,7 @@ export default {
         loading = vm.$loading()
       }
       ax({
-        method: 'Post',
+        method,
         url: api,
         data
       }).then(res => {
@@ -30,6 +30,42 @@ export default {
           resolve(data)
         }
       })
+    })
+  },
+
+  /**
+   * post函数
+   * @param {String} api api接口
+   * @param {Object} data 数据
+   * @param {Boolean} isLoading 是否需要加载
+   */
+  post(api, data, isLoading = false) {
+    return new Promise((resolve, reject) => {
+      this.ajax('POST', api, data, isLoading)
+        .then(data => {
+          resolve(data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
+  },
+
+  /**
+   * delete函数
+   * @param {String} api api接口
+   * @param {Object} data 数据
+   * @param {Boolean} isLoading 是否需要加载
+   */
+  delete(api, data, isLoading = false) {
+    return new Promise((resolve, reject) => {
+      this.ajax('DELETE', api, data, isLoading)
+        .then(data => {
+          resolve(data)
+        })
+        .catch(err => {
+          reject(err)
+        })
     })
   }
 }

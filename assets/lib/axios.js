@@ -3,6 +3,7 @@ import Vue from 'vue'
 import { SERVERCONFIG, APPCONFIG } from './appconfig'
 
 const isClient = process.client
+const vm = new Vue()
 
 const ax = axios.create({
   baseURL: SERVERCONFIG.domain,
@@ -11,8 +12,9 @@ const ax = axios.create({
 
 // 请求拦截
 ax.interceptors.request.use(config => {
-  if (process.TOKEN) {
-    config.headers.common['authenticate'] = process.TOKEN
+  const token = isClient ? vm.$cookie.get('token') : process.TOKEN
+  if (token) {
+    config.headers.common['authenticate'] = token
   }
   const { data } = config
   if (APPCONFIG.isDebug) {
@@ -32,7 +34,6 @@ ax.interceptors.response.use(response => {
       console.log('---response data ---')
       console.log(data)
       if (data.error_code && isClient) {
-        let vm = new Vue()
         vm.$message({
           type: 'error',
           message: data.error_message,
@@ -43,7 +44,6 @@ ax.interceptors.response.use(response => {
       console.log('--- error ---')
       console.log(data)
       if (isClient) {
-        let vm = new Vue()
         vm.$message({
           type: 'error',
           message:

@@ -10,3 +10,5 @@ export const login = '/api/login'
 export const addApi = '/api/addApi'
 // 获取api
 export const getApi = '/api/getApi'
+// 删除api
+export const deleteApi = '/api/deleteApi'

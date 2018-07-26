@@ -80,6 +80,7 @@ export default {
                 duration: 2000
               })
               this.$cookie.set('token', data.token)
+              this.$cookie.set('userName', data.userName)
               this.setSystem({ key: '_token', value: data.token })
               system
                 .getSystem(data.token)

@@ -34,5 +34,22 @@ export default {
           reject(err)
         })
     })
+  },
+
+  /**
+   * 删除api
+   * @param {String} apiId apiId
+   */
+  deleteApi(apiId) {
+    return new Promise((resolve, reject) => {
+      http
+        .delete(api.deleteApi, { apiId })
+        .then(data => {
+          resolve(data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
   }
 }
