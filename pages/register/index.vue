@@ -42,6 +42,9 @@ import format from '~/assets/lib/format'
 import user from '~/assets/actions/user'
 export default {
   name: 'Register',
+  meta: {
+    notAuth: true
+  },
   data() {
     return {
       login: {

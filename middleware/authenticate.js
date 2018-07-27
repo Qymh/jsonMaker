@@ -7,7 +7,10 @@ export default function({ store, route, redirect, req }) {
   const isClient = process.client
   const isServer = process.server
   let token = store.getters.token
-  let cookieToken = isClient && vm.$cookie.get('token')
+  const cookieToken = isClient && vm.$cookie.get('token')
+  const userName = isClient
+    ? vm.$cookie.get('token')
+    : getCookieFromReq(req, 'userName')
 
   if (route.meta && route.meta[0].auth) {
     if (token && cookieToken) {
@@ -44,6 +47,10 @@ export default function({ store, route, redirect, req }) {
       } else {
         redirect('/login')
       }
+    }
+  } else {
+    if (userName && !route.meta[0].notAuth) {
+      redirect(`/${userName}`)
     }
   }
 }

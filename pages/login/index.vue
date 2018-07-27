@@ -32,6 +32,9 @@ import system from '~/assets/actions/system'
 import { mapActions } from 'vuex'
 export default {
   name: 'Login',
+  meta: {
+    notAuth: true
+  },
   data() {
     return {
       login: {
@@ -80,7 +83,6 @@ export default {
                 duration: 2000
               })
               this.$cookie.set('token', data.token)
-              this.$cookie.set('userName', data.userName)
               this.setSystem({ key: '_token', value: data.token })
               system
                 .getSystem(data.token)
@@ -89,6 +91,7 @@ export default {
                   this.setSystem({ key: '_userName', value: userName })
                   this.setSystem({ key: '_account', value: account })
                   this.setSystem({ key: '_isFirstIn', value: false })
+                  this.$cookie.set('userName', userName)
                   this.$router.push({
                     path: `/${userName}`
                   })
