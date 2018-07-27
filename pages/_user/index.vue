@@ -2,7 +2,7 @@
   .database
     el-row.database-nav(type="flex" align="center")
       el-button(type="text" size="medium") {{userName}}
-      el-button(type="text" size="medium") 退出登陆
+      el-button(type="text" size="medium" @click="signOut") 退出登陆
     .database-option
       .database-option-form
         el-row.database-option-form_title.colorFirst 创建你的api
@@ -26,7 +26,8 @@
       .database-option-table
         el-table(
           border
-          :data="api")
+          :data="api"
+          @row-click="toProperty")
           el-table-column(prop="apiName" label="api名字" width="150")
           el-table-column(prop="createdAt" label="创建时间" width="250")
           el-table-column(prop="description" label="描述")
@@ -84,11 +85,46 @@ export default {
         if (valid) {
           const { apiName, description } = this.addApiForm
           this.addApi({ apiName, description })
+            .then(() => {
+              this.$message({
+                message: '添加成功',
+                type: 'success'
+              })
+            })
+            .catch(() => {
+              this.$message({
+                message: '添加失败',
+                type: 'error'
+              })
+            })
         }
       })
     },
     doDeleteApi(index, apiId) {
       this.deleteApi({ apiId, index })
+        .then(() => {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          })
+        })
+        .catch(() => {
+          this.$message({
+            message: '删除失败',
+            type: 'error'
+          })
+        })
+    },
+    toProperty(row) {
+      const { apiName } = row
+      const userName = this.userName
+      this.$router.push({
+        path: `/${userName}/${apiName}`
+      })
+    },
+    signOut() {
+      this.$cookie.delete(['token', 'userName'])
+      window.location.reload()
     }
   }
 }
