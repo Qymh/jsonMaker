@@ -20,7 +20,9 @@ exports.USERSCHEMACONFIG = {
   // 名字
   userName: {
     type: String || Number,
-    default: '未命名',
+    index: [true, '用户名已经存在'],
+    unique: [true, '用户名已经存在'],
+    required: [true, '用户名不能为空'],
     minlength: [2, '姓名长度需要大于等于2'],
     maxlength: [8, '姓名长度需要小于等于8'],
     trim: true

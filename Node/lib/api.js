@@ -20,7 +20,6 @@ exports.add = (apiName, description, token) => {
 
     Api.save((err, doc) => {
       if (err) {
-        console.log(err)
         err = ApiPlugins.dealAddError(err)
         reject(err)
       } else {
@@ -52,8 +51,13 @@ exports.get = token => {
         err = CommonPlugins.dealError(err)
         reject(err)
       } else {
-        doc = ApiPlugins.dealGet(doc[0].api)
-        resolve(doc)
+        try {
+          doc = ApiPlugins.dealGet(doc[0].api.reverse())
+          resolve(doc)
+        } catch (err) {
+          const error = CommonPlugins.dealError({})
+          reject(error)
+        }
       }
     })
   })
@@ -67,15 +71,25 @@ exports.get = token => {
 exports.delete = (apiId, token) => {
   return new Promise((resolve, reject) => {
     const id = UserPlugins.verifyToken(token).data
-    UserModel.find({ _id: id })
-      .update({ $pull: { api: { id: apiId } } })
-      .exec(err => {
-        if (err) {
-          err = CommonPlugins.dealError(err)
-          reject(err)
-        } else {
-          resolve({ success: true })
-        }
-      })
+    UserModel.find({ _id: id }).exec((err, doc) => {
+      if (err) {
+        err = CommonPlugins.dealError(err)
+        reject(err)
+      } else {
+        const arr = doc[0].api.filter(p => {
+          return p._id != apiId
+        })
+        console.log(arr)
+        UserModel.find({ _id: id })
+          .update({ $set: { api: arr } })
+          .exec(err => {
+            if (err) {
+              err = CommonPlugins.dealError(err)
+            } else {
+              resolve({ success: true })
+            }
+          })
+      }
+    })
   })
 }

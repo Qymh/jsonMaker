@@ -4,7 +4,7 @@ const errors = require('../errors/common')
 // 处理加入Api
 exports.dealAdd = obj => {
   try {
-    const { apiName, createdAt, description } = obj
+    const { apiName, createdAt, description, apiId } = obj
     let computedCreatedAt = ''
     const year = createdAt.getFullYear()
     const month = createdAt.getMonth() + 1
@@ -17,7 +17,8 @@ exports.dealAdd = obj => {
     return {
       apiName,
       createdAt: computedCreatedAt,
-      description
+      description,
+      apiId
     }
   } catch (e) {
     return {}

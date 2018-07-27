@@ -2,10 +2,14 @@ const nodeconfig = require('../config/nodeconfig')
 
 // 处理全局参数
 exports.dealSystem = system => {
-  let systemLater = {}
-  const { account, userName } = system
-  systemLater = { account, userName }
-  return systemLater
+  try {
+    let systemLater = {}
+    const { account, userName } = system
+    systemLater = { account, userName }
+    return systemLater
+  } catch (error) {
+    return {}
+  }
 }
 
 // 处理全局参数出错

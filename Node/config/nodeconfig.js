@@ -19,7 +19,7 @@ exports.code = {
   // 未知错误
   unknown: 100099,
   // 未知错误文字
-  unknownText: '未知错误'
+  unknownText: '未知错误,请重新登陆试试'
 }
 
 // session
