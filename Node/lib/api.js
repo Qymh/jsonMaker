@@ -79,7 +79,6 @@ exports.delete = (apiId, token) => {
         const arr = doc[0].api.filter(p => {
           return p._id != apiId
         })
-        console.log(arr)
         UserModel.find({ _id: id })
           .update({ $set: { api: arr } })
           .exec(err => {

@@ -1,5 +1,4 @@
 const userPlugin = require('../plugins/user')
-const errors = require('../errors/common')
 const nodeconfig = require('../config/nodeconfig')
 
 // 验证token是否过期

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const nodeconfig = require('../config/nodeconfig')
-const errors = require('../errors/common')
+const CommonPlugins = require('./common')
 
 // 处理用户登陆
 exports.dealLogin = user => {
@@ -32,7 +32,7 @@ exports.dealRegisterError = err => {
     return errLater
   }
   if (err.errors) {
-    return errors.dealValidatorData(err)
+    return CommonPlugins.dealValidatorData(err)
   }
 }
 

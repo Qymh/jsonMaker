@@ -1,5 +1,5 @@
 const nodeconfig = require('../config/nodeconfig')
-const errors = require('../errors/common')
+const CommonPlugins = require('./common')
 
 // 处理加入Api
 exports.dealAdd = obj => {
@@ -34,7 +34,7 @@ exports.dealAddError = err => {
     return errLater
   }
   if (err.errors) {
-    return errors.dealValidatorData(err)
+    return CommonPlugins.dealValidatorData(err)
   }
 }
 
