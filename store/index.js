@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import api from './modules/api'
 import system from './modules/system'
+import property from './modules/property'
 
 Vue.use(Vuex)
 
@@ -10,7 +11,8 @@ const store = () =>
     namespaced: true,
     modules: {
       api,
-      system
+      system,
+      property
     }
   })
 

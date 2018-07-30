@@ -35,7 +35,7 @@
             template(slot-scope="scope")
               el-button(
                 type="text" size="small"
-                @click.prevent="doDeleteApi(scope.$index,api[scope.$index].apiId)") 删除
+                @click.stop="doDeleteApi(scope.$index,api[scope.$index].apiId)") 删除
 </template>
 
 <script>
@@ -116,10 +116,13 @@ export default {
         })
     },
     toProperty(row) {
-      const { apiName } = row
+      const { apiName, apiId } = row
       const userName = this.userName
       this.$router.push({
-        path: `/${userName}/${apiName}`
+        path: `/${userName}/${apiName}`,
+        query: {
+          apiId
+        }
       })
     },
     signOut() {
