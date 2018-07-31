@@ -101,19 +101,19 @@ export default {
       })
     },
     doDeleteApi(index, apiId) {
-      this.deleteApi({ apiId, index })
+      this.$confirm('您确定删除这个Api吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
         .then(() => {
+          this.deleteApi({ apiId, index })
           this.$message({
             message: '删除成功',
             type: 'success'
           })
         })
-        .catch(() => {
-          this.$message({
-            message: '删除失败',
-            type: 'error'
-          })
-        })
+        .catch(() => {})
     },
     toProperty(row) {
       const { apiName, apiId } = row
@@ -121,7 +121,7 @@ export default {
       this.$router.push({
         path: `/${userName}/${apiName}`,
         query: {
-          apiId
+          apiId: apiId
         }
       })
     },

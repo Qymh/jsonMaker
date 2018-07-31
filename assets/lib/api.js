@@ -15,3 +15,7 @@ export const deleteApi = '/api/deleteApi'
 
 // 添加属性
 export const addProperty = '/api/addProperty'
+// 获取属性
+export const getProperties = '/api/getProperties'
+// 删除属性
+export const deleteProperty = '/api/deleteProperty'
