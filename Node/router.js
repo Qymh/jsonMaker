@@ -5,15 +5,22 @@ const api = require('./actions/api')
 const system = require('./actions/system')
 const property = require('./actions/property')
 
+// 注册登陆
 router.post('/register', user.register).post('/login', user.login)
 
+// api相关
 router
   .post('/addApi', api.add)
   .post('/getApi', api.get)
   .delete('/deleteApi', api.delete)
 
+// 系统
 router.post('/system', system.get)
 
-router.post('/addProperty', property.add).post('/getProperties', property.get)
+// 属性相关
+router
+  .post('/addProperty', property.add)
+  .post('/getProperties', property.get)
+  .delete('/deleteProperty', property.delete)
 
 module.exports = router

@@ -29,3 +29,18 @@ exports.get = async (req, res) => {
       res.json(err)
     })
 }
+
+// 删除属性
+exports.delete = async (req, res) => {
+  const data = req.body
+  const { apiId, propertyId } = data
+  const token = res.locals.token
+  await property
+    .delete(apiId, propertyId, token)
+    .then(data => {
+      res.json(data)
+    })
+    .catch(err => {
+      res.json(err)
+    })
+}

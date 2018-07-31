@@ -2,7 +2,6 @@ const UserPlugins = require('../plugins/user')
 const PropertyPlugins = require('../plugins/property')
 const CommonPlugins = require('../plugins/common')
 const UserModel = require('../model/user')
-const ApiModel = require('../model/api')
 const PropertyModel = require('../model/property')
 
 /**
@@ -19,37 +18,45 @@ exports.add = (apiId, name, type, token) => {
       name,
       type
     })
-    Property.save((err, doc) => {
+    Property.save((err, prop) => {
       if (err) {
         err = PropertyPlugins.dealAddError(err)
         reject(err)
       } else {
-        // ApiModel.find({ _id: apiId }).exec((err, doc) => {
-        //   if (err) {
-        //     err = CommonPlugins.dealError(err)
-        //     reject(err)
-        //   } else {
-        //     // console.log(doc)
-        //     resolve(1)
-        //   }
-        // })
-        UserModel.find({ _id: id })
-          .find({ api: apiId })
-          .exec((err, doc) => {
-            console.log(doc)
-          })
-        resolve(1)
-        // UserModel.find({ _id: id })
-        //   .update({ $push: { 'api.properties': doc } })
-        //   .exec(err => {
-        //     if (err) {
-        //       err = CommonPlugins.dealError(err)
-        //       reject(err)
-        //     } else {
-        //       doc = PropertyPlugins.dealAdd(doc)
-        //       resolve(doc)
-        //     }
-        //   })
+        UserModel.find({ _id: id }).exec((err, doc) => {
+          if (err) {
+            err = CommonPlugins.dealError(err)
+            reject(err)
+          } else {
+            // 这个位置用 === 无法匹配
+            const match = doc[0].api.filter(p => p._id == apiId)
+            if (match.length !== 1) {
+              err.message = 'apiId不存在'
+              err = CommonPlugins.dealError(err)
+              reject(err)
+            } else {
+              // UserModel.schema.tree.api[0].tree.collections[0].add({
+              //   [name]: {
+              //     type
+              //   }
+              // })
+              // console.log(UserModel.schema.tree.api[0].tree.collections[0])
+              match[0].properties.push({
+                name,
+                type
+              })
+              UserModel.findByIdAndUpdate(id, doc[0]).exec(err => {
+                if (err) {
+                  err = CommonPlugins.dealError(err)
+                  reject(err)
+                } else {
+                  prop = PropertyPlugins.dealAdd(prop)
+                  resolve(prop)
+                }
+              })
+            }
+          }
+        })
       }
     })
   })
@@ -64,13 +71,54 @@ exports.get = (apiId, token) => {
         err = CommonPlugins.dealError(err)
         reject(err)
       } else {
-        try {
-          console.log(doc[0].api)
-          // doc = PropertyPlugins.dealGet(doc[0].api.reverse())
-          resolve(1)
-        } catch (err) {
-          const error = CommonPlugins.dealError({})
-          reject(error)
+        // 这个位置用 === 无法匹配
+        const match = doc[0].api.filter(p => p._id == apiId)
+        if (match.length !== 1) {
+          let err = Object.create(null)
+          err.message = 'apiId不存在'
+          err = CommonPlugins.dealError(err)
+          reject(err)
+        } else {
+          doc = PropertyPlugins.dealGet(match[0].properties)
+          resolve(doc)
+        }
+      }
+    })
+  })
+}
+
+// 删除属性
+exports.delete = (apiId, propertyId, token) => {
+  return new Promise((resolve, reject) => {
+    const id = UserPlugins.verifyToken(token).data
+    UserModel.find({ _id: id }).exec((err, doc) => {
+      if (err) {
+        err = CommonPlugins.dealError(err)
+        reject(err)
+      } else {
+        // 这个位置用 === 无法匹配
+        let outerIndex = ''
+        const match = doc[0].api.filter((p, index) => {
+          outerIndex = index
+          return p._id == apiId
+        })
+        if (match.length !== 1) {
+          let err = Object.create(null)
+          err.message = 'apiId不存在'
+          err = CommonPlugins.dealError(err)
+          reject(err)
+        } else {
+          doc[0].api[outerIndex].properties = doc[0].api[
+            outerIndex
+          ].properties.filter(p => p._id != propertyId)
+          UserModel.findByIdAndUpdate(id, doc[0]).exec(err => {
+            if (err) {
+              err = CommonPlugins.dealError(err)
+              reject(err)
+            } else {
+              resolve({ success: true })
+            }
+          })
         }
       }
     })
