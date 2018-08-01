@@ -60,8 +60,14 @@ export default function({ store, route, redirect, req }) {
     }
   } else {
     // 自动登陆页面
-    if (userName && !route.meta[0].notAuth) {
-      redirect(`/${userName}`)
+    if (userName) {
+      if (!route.meta[0].notAuth) {
+        redirect(`/${userName}`)
+      }
+    } else {
+      if (!route.meta[0].notAuth) {
+        redirect('/login')
+      }
     }
   }
 }
