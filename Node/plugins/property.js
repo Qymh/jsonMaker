@@ -2,11 +2,10 @@ const CommonPlugins = require('./common')
 
 // 处理添加属性
 exports.dealAdd = obj => {
-  const { id, name, type } = obj
+  const { id, name } = obj
   return {
     propertyId: id,
-    name,
-    type
+    name
   }
 }
 
@@ -19,11 +18,10 @@ exports.dealAddError = err => {
 exports.dealGet = arr => {
   const laterArr = []
   for (const item of arr) {
-    const { id, name, type } = item
+    const { id, name } = item
     laterArr.push({
       propertyId: id,
-      name,
-      type
+      name
     })
   }
   return laterArr.reverse()

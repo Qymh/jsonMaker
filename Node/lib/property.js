@@ -8,15 +8,13 @@ const PropertyModel = require('../model/property')
  * 添加属性
  * @param {String} apiId 当前添加的apiId
  * @param {String} name 属性名
- * @param {String} type 属性类型
  * @param {String} token token值
  */
-exports.add = (apiId, name, type, token) => {
-  const id = UserPlugins.verifyToken(token).data
+exports.add = (apiId, name, token) => {
   return new Promise((resolve, reject) => {
+    const id = UserPlugins.verifyToken(token).data
     const Property = new PropertyModel({
-      name,
-      type
+      name
     })
     Property.save((err, prop) => {
       if (err) {
@@ -35,15 +33,8 @@ exports.add = (apiId, name, type, token) => {
               err = CommonPlugins.dealError(err)
               reject(err)
             } else {
-              // UserModel.schema.tree.api[0].tree.collections[0].add({
-              //   [name]: {
-              //     type
-              //   }
-              // })
-              // console.log(UserModel.schema.tree.api[0].tree.collections[0])
               match[0].properties.push({
-                name,
-                type
+                name
               })
               UserModel.findByIdAndUpdate(id, doc[0]).exec(err => {
                 if (err) {

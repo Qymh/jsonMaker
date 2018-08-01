@@ -4,8 +4,7 @@ const config = require('../config/schema/property').PROPERTYSCHEMACONFIG
 
 const PropertySchema = new Schema(
   {
-    name: config.name,
-    type: config.type
+    name: config.name
   },
   config.options
 )

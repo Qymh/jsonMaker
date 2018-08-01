@@ -4,6 +4,7 @@ const user = require('./actions/user')
 const api = require('./actions/api')
 const system = require('./actions/system')
 const property = require('./actions/property')
+const collections = require('./actions/collections')
 
 // 注册登陆
 router.post('/register', user.register).post('/login', user.login)
@@ -22,5 +23,10 @@ router
   .post('/addProperty', property.add)
   .post('/getProperties', property.get)
   .delete('/deleteProperty', property.delete)
+
+// 集合相关
+router
+  .post('/addCollections', collections.add)
+  .post('/getCollections', collections.get)
 
 module.exports = router

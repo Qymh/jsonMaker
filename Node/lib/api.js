@@ -51,6 +51,7 @@ exports.get = token => {
         err = CommonPlugins.dealError(err)
         reject(err)
       } else {
+        console.log(doc)
         try {
           doc = ApiPlugins.dealGet(doc[0].api.reverse())
           resolve(doc)

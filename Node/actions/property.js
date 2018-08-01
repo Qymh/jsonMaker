@@ -3,10 +3,10 @@ const property = require('../lib/property')
 // 添加属性
 exports.add = async (req, res) => {
   const data = req.body
-  const { name, type, apiId } = data
+  const { name, apiId } = data
   const token = res.locals.token
   await property
-    .add(apiId, name, type, token)
+    .add(apiId, name, token)
     .then(data => {
       res.json(data)
     })
