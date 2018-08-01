@@ -19,3 +19,8 @@ export const addProperty = '/api/addProperty'
 export const getProperties = '/api/getProperties'
 // 删除属性
 export const deleteProperty = '/api/deleteProperty'
+
+// 添加集合
+export const addCollections = '/api/addCollections'
+// 获取集合
+export const getCollections = '/api/getCollections'

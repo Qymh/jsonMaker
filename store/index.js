@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import api from './modules/api'
 import system from './modules/system'
 import property from './modules/property'
+import collections from './modules/collections'
 
 Vue.use(Vuex)
 
@@ -12,7 +13,8 @@ const store = () =>
     modules: {
       api,
       system,
-      property
+      property,
+      collections
     }
   })
 

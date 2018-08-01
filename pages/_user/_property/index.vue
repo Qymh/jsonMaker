@@ -16,15 +16,6 @@
             el-input(
               v-model="property.name"
               placeholder="请输入属性名")
-          el-form-item(label="属性类型" prop="type")
-            el-select(
-              v-model="property.type"
-              placeholder="请选择属性类型")
-              el-option(
-                v-for="(item,index) in propertyTypes"
-                :key="index"
-                :label="item"
-                :value="item")
           el-form-item
             el-button(
               @click="doAddProperty"
@@ -53,15 +44,28 @@
                 :label="item.name")
                 el-input(
                   v-model="item.value"
-                  :placeholder="'请输入'+item.name+' 类型:'+item.type")
+                  :placeholder="'请输入'+item.name")
                 el-row.property-option-form_box__delete(@click.native ="doDeleteProperty(item,index)")
                   el-row(type="flex" align="middle" justify="center") 
                     i.el-icon-circle-close-outline
         //- 按钮
         el-row.property-option-form_btn
           el-button(
-            @click="doAddProperty"
-            type="primary") 确认
+            @click="doAddCollections"
+            type="primary") 添加
+      .property-option-collections
+        el-row.colorFirst.property-option-collections_title 属性值Table
+        el-table.property-option-collections_table(
+          :data="collectionsArr"
+          style="width:100%;"
+          max-height="550")
+          el-table-column(
+            v-for="(item,index) in collectionsTableArr"
+            :fixed="item==='collectionsId'?'left':false"
+            :minWidth="item==='collectionsId'||item==='createdAt'?'300px':'150px'"
+            :key="index"
+            :prop="item"
+            :label="item")
 </template>
 
 <script>
@@ -72,6 +76,7 @@ export default {
   async asyncData({ query, store }) {
     const { apiId } = query
     await store.dispatch('getProperties', { apiId })
+    await store.dispatch('getCollections', { apiId })
     return {
       apiId: apiId
     }
@@ -93,14 +98,6 @@ export default {
         ],
         type: [{ required: true, message: '请选择属性类型', trigger: 'blur' }]
       },
-      propertyTypes: [
-        'String',
-        'Number',
-        'Date',
-        'Boolean',
-        'Schmea.Types.Mixed',
-        'Schema.Types.ObjectId'
-      ],
       addPropertyFormArr: [
         {
           property: 'name',
@@ -113,13 +110,16 @@ export default {
   computed: {
     ...mapGetters({
       userName: 'userName',
-      propertiesArr: 'propertiesArr'
+      propertiesArr: 'propertiesArr',
+      collectionsArr: 'collectionsArr',
+      collectionsTableArr: 'collectionsTableArr'
     })
   },
   methods: {
     ...mapActions({
       addProperty: 'addProperty',
-      deleteProperty: 'deleteProperty'
+      deleteProperty: 'deleteProperty',
+      addCollections: 'addCollections'
     }),
     // 添加属性
     doAddProperty() {
@@ -127,11 +127,9 @@ export default {
         if (valid) {
           this.addProperty({
             apiId: this.apiId,
-            name: this.property.name,
-            type: this.property.type
+            name: this.property.name
           })
           this.property.name = ''
-          this.property.type = ''
         }
       })
     },
@@ -152,6 +150,12 @@ export default {
           })
         })
         .catch(() => {})
+    },
+    // 添加集合
+    doAddCollections() {
+      const apiId = this.apiId
+      const propertiesArr = this.propertiesArr
+      this.addCollections({ apiId, propertiesArr })
     },
     // 退出登陆
     signOut() {
@@ -209,6 +213,14 @@ export default {
     }
     &-table {
       margin-top: 20px;
+    }
+    &-collections {
+      margin-bottom: 200px;
+      &_title {
+        height: 100px;
+        line-height: 100px;
+        font-size: 25px;
+      }
     }
   }
 }

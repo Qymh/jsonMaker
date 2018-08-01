@@ -29,9 +29,9 @@ const mutations = {
 
 const actions = {
   // 添加属性值
-  async addProperty({ commit }, { apiId, name, type }) {
+  async addProperty({ commit }, { apiId, name }) {
     await property
-      .addProperty(apiId, name, type)
+      .addProperty(apiId, name)
       .then(data => {
         commit('_addProperty', data)
       })

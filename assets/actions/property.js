@@ -6,12 +6,11 @@ export default {
    * 添加属性
    * @param {String} apiId api唯一Id
    * @param {String} name 属性名
-   * @param {String} type 属性类型
    */
-  addProperty(apiId, name, type) {
+  addProperty(apiId, name) {
     return new Promise((resolve, reject) => {
       http
-        .post(api.addProperty, { apiId, name, type }, true)
+        .post(api.addProperty, { apiId, name }, true)
         .then(data => {
           resolve(data)
         })
