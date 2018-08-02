@@ -35,5 +35,23 @@ export default {
           reject(err)
         })
     })
+  },
+
+  /**
+   * 删除集合
+   * @param {String} apiId apiId
+   * @param {String} collectionsId 集合Id
+   */
+  deleteCollections(apiId, collectionsId) {
+    return new Promise((resolve, reject) => {
+      http
+        .delete(api.deleteCollections, { apiId, collectionsId })
+        .then(data => {
+          resolve(data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
   }
 }

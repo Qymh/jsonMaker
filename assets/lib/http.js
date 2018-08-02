@@ -67,5 +67,23 @@ export default {
           reject(err)
         })
     })
+  },
+
+  /**
+   * put函数
+   * @param {String} api api接口
+   * @param {Object} data 数据
+   * @param {Boolean} isLoading 是否需要加载
+   */
+  put(api, data, isLoading = false) {
+    return new Promise((resolve, reject) => {
+      this.ajax('PUT', api, data, isLoading)
+        .then(data => {
+          resolve(data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
   }
 }

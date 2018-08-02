@@ -12,7 +12,7 @@ const getters = {
 
 const mutations = {
   _addProperty(state, obj) {
-    state._propertiesArr.unshift(obj)
+    state._propertiesArr.push(obj)
     vm.$message({
       message: '添加成功',
       type: 'success',
@@ -24,6 +24,9 @@ const mutations = {
   },
   _deleteProperty(state, index) {
     state._propertiesArr.splice(index, 1)
+  },
+  _putProperty(state, index) {
+    console.log(index)
   }
 }
 
@@ -55,6 +58,15 @@ const actions = {
       .deleteProperty(apiId, propertyId)
       .then(() => {
         commit('_deleteProperty', index)
+      })
+      .catch(() => {})
+  },
+  // 修改属性值
+  async putProperty({ commit }, { apiId, propertyId, value }) {
+    await property
+      .putProperty(apiId, propertyId, value)
+      .then(() => {
+        commit('_putProperty', 1)
       })
       .catch(() => {})
   }
