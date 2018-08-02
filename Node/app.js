@@ -20,6 +20,7 @@ db.once('open', () => {
 })
 
 app.post('*', authenticate.authenticate)
+app.put('*', authenticate.authenticate)
 app.delete('*', authenticate.authenticate)
 app.use(bodyParser.json())
 app.use(

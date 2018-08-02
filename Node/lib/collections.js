@@ -43,7 +43,7 @@ exports.add = (apiId, propertiesArr, token) => {
                   err = CommonPlugins.dealError(err)
                   reject(err)
                 } else {
-                  resolve(doc)
+                  resolve(col)
                 }
               })
             }
@@ -74,6 +74,43 @@ exports.get = (apiId, token) => {
           resolve({
             collections: match[0].collections.reverse(),
             tableArr
+          })
+        }
+      }
+    })
+  })
+}
+
+// 删除集合
+exports.delete = (apiId, collectionsId, token) => {
+  return new Promise((resolve, reject) => {
+    const id = UserPlugins.verifyToken(token).data
+    UserModel.find({ _id: id }).exec((err, doc) => {
+      if (err) {
+        err = CommonPlugins.dealError(err)
+        reject(err)
+      } else {
+        let outerIndex = ''
+        const match = doc[0].api.filter((p, index) => {
+          outerIndex = index
+          // 这个位置用 === 无法匹配
+          return p._id == apiId
+        })
+        if (match.length !== 1) {
+          err.message = 'apiId不存在'
+          err = CommonPlugins.dealError(err)
+          reject(err)
+        } else {
+          doc[0].api[outerIndex].collections = doc[0].api[
+            outerIndex
+          ].collections.filter(p => p.collectionsId != collectionsId)
+          UserModel.findByIdAndUpdate(id, doc[0]).exec(err => {
+            if (err) {
+              err = CommonPlugins.dealError(err)
+              reject(err)
+            } else {
+              resolve({ success: true })
+            }
           })
         }
       }

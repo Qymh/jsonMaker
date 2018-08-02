@@ -23,10 +23,12 @@ router
   .post('/addProperty', property.add)
   .post('/getProperties', property.get)
   .delete('/deleteProperty', property.delete)
+  .put('/putProperty', property.put)
 
 // 集合相关
 router
   .post('/addCollections', collections.add)
   .post('/getCollections', collections.get)
+  .delete('/deleteCollections', collections.delete)
 
 module.exports = router
