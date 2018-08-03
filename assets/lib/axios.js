@@ -37,7 +37,7 @@ ax.interceptors.response.use(response => {
         vm.$message({
           type: 'error',
           message: data.error_message,
-          duration: 2000
+          duration: 1500
         })
       }
     } else {
@@ -48,7 +48,7 @@ ax.interceptors.response.use(response => {
           type: 'error',
           message:
             status === 0 ? '网络链接异常' : `网络异常,错误代码:${status}`,
-          duration: 2000
+          duration: 1500
         })
       }
     }

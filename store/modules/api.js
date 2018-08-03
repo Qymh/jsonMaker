@@ -1,4 +1,6 @@
 import api from '~/assets/actions/api'
+import Vue from 'vue'
+const vm = new Vue()
 
 const state = {
   _api: []
@@ -14,9 +16,19 @@ const mutations = {
   },
   _addApi(state, data) {
     state._api.unshift(data)
+    vm.$message({
+      message: '添加成功',
+      type: 'success',
+      duration: 1500
+    })
   },
   _deleteApi(state, index) {
     state._api.splice(index, 1)
+    vm.$message({
+      message: '删除成功',
+      type: 'success',
+      duration: 1500
+    })
   }
 }
 

@@ -3,6 +3,7 @@ const ApiPlugins = require('../plugins/api')
 const CommonPlugins = require('../plugins/common')
 const UserModel = require('../model/user')
 const ApiModel = require('../model/api')
+const nodeconfig = require('../config/nodeconfig')
 
 /**
  * 添加api
@@ -18,22 +19,38 @@ exports.add = (apiName, description, token) => {
       description
     })
 
-    Api.save((err, doc) => {
+    UserModel.find({ _id: id }).exec((err, doc) => {
       if (err) {
-        err = ApiPlugins.dealAddError(err)
+        err = CommonPlugins.dealError(err)
         reject(err)
       } else {
-        UserModel.find({ _id: id })
-          .update({ $push: { api: doc } })
-          .exec(err => {
-            if (err) {
-              err = CommonPlugins.dealError(err)
-              reject(err)
-            } else {
-              doc = ApiPlugins.dealAdd(doc)
-              resolve(doc)
-            }
-          })
+        for (let item of doc[0].api) {
+          if (item.apiName == apiName) {
+            const laterErr = {}
+            laterErr.error_code = nodeconfig.code.existData
+            laterErr.error_message = 'api已经存在'
+            reject(laterErr)
+            return
+          }
+        }
+        Api.save((err, doc) => {
+          if (err) {
+            err = ApiPlugins.dealAddError(err)
+            reject(err)
+          } else {
+            UserModel.find({ _id: id })
+              .update({ $push: { api: doc } })
+              .exec(err => {
+                if (err) {
+                  err = CommonPlugins.dealError(err)
+                  reject(err)
+                } else {
+                  doc = ApiPlugins.dealAdd(doc)
+                  resolve(doc)
+                }
+              })
+          }
+        })
       }
     })
   })

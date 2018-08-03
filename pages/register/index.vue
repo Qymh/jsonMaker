@@ -99,7 +99,7 @@ export default {
               this.$message({
                 message: '注册成功',
                 type: 'success',
-                duration: 2000
+                duration: 1500
               })
             })
         }

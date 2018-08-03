@@ -85,18 +85,6 @@ export default {
         if (valid) {
           const { apiName, description } = this.addApiForm
           this.addApi({ apiName, description })
-            .then(() => {
-              this.$message({
-                message: '添加成功',
-                type: 'success'
-              })
-            })
-            .catch(() => {
-              this.$message({
-                message: '添加失败',
-                type: 'error'
-              })
-            })
         }
       })
     },
@@ -105,15 +93,9 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
+      }).then(() => {
+        this.deleteApi({ apiId, index })
       })
-        .then(() => {
-          this.deleteApi({ apiId, index })
-          this.$message({
-            message: '删除成功',
-            type: 'success'
-          })
-        })
-        .catch(() => {})
     },
     toProperty(row) {
       const { apiName, apiId } = row

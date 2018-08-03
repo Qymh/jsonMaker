@@ -80,7 +80,7 @@ export default {
               this.$message({
                 message: '登陆成功',
                 type: 'success',
-                duration: 2000
+                duration: 1500
               })
               this.$cookie.set('token', data.token)
               this.setSystem({ key: '_token', value: data.token })
@@ -102,7 +102,7 @@ export default {
               this.$message({
                 message: err.error_message,
                 type: 'error',
-                duration: 2000
+                duration: 1500
               })
             })
         }
