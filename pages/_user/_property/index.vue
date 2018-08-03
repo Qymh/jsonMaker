@@ -1,7 +1,7 @@
 <template lang="pug">
   .property
     el-row.property-nav(type="flex" align="center")
-      el-button(type="text" size="medium") {{userName}}
+      el-button(type="text" size="medium" @click="toHome") {{userName}}
       el-button(type="text" size="medium" @click="signOut") 退出登陆
     .property-option
       //- 创建属性表格
@@ -138,10 +138,10 @@ import { mapGetters, mapActions } from 'vuex'
 import { SERVERCONFIG } from '~/assets/lib/appconfig'
 export default {
   name: 'Property',
-  async asyncData({ query, store }) {
+  async asyncData({ query, store, redirect }) {
     const { apiId } = query
-    await store.dispatch('getProperties', { apiId })
-    await store.dispatch('getCollections', { apiId })
+    await store.dispatch('property/getProperties', { apiId, redirect })
+    await store.dispatch('collections/getCollections', { apiId })
     return {
       apiId: apiId
     }
@@ -186,10 +186,10 @@ export default {
   },
   computed: {
     ...mapGetters({
-      userName: 'userName',
-      propertiesArr: 'propertiesArr',
-      collectionsArr: 'collectionsArr',
-      collectionsTableArr: 'collectionsTableArr'
+      userName: 'system/userName',
+      propertiesArr: 'property/propertiesArr',
+      collectionsArr: 'collections/collectionsArr',
+      collectionsTableArr: 'collections/collectionsTableArr'
     }),
     collectionsDialogArr() {
       return Object.keys(this.collectionsDialog)
@@ -197,12 +197,12 @@ export default {
   },
   methods: {
     ...mapActions({
-      addProperty: 'addProperty',
-      deleteProperty: 'deleteProperty',
-      putProperty: 'putProperty',
-      addCollections: 'addCollections',
-      deleteCollections: 'deleteCollections',
-      putCollections: 'putCollections'
+      addProperty: 'property/addProperty',
+      deleteProperty: 'property/deleteProperty',
+      putProperty: 'property/putProperty',
+      addCollections: 'collections/addCollections',
+      deleteCollections: 'collections/deleteCollections',
+      putCollections: 'collections/putCollections'
     }),
     // 添加属性
     doAddProperty() {
@@ -297,6 +297,10 @@ export default {
     signOut() {
       this.$cookie.delete(['token', 'userName'])
       window.location.reload()
+    },
+    // 回到首页
+    toHome() {
+      this.$router.push('test')
     }
   }
 }

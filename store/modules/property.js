@@ -46,7 +46,7 @@ const actions = {
       .catch(() => {})
   },
   // 获取属性值
-  async getProperties({ commit }, { apiId }) {
+  async getProperties({ commit }, { apiId, redirect }) {
     await property
       .getProperties(apiId)
       .then(data => {
@@ -55,7 +55,14 @@ const actions = {
         }
         commit('_getProperties', data)
       })
-      .catch(() => {})
+      .catch(() => {
+        redirect({
+          path: '/login',
+          query: {
+            errorMessage: 'api不存在,请重新登陆'
+          }
+        })
+      })
   },
   // 删除属性值
   async deleteProperty({ commit }, { apiId, propertyId, index }) {
@@ -78,6 +85,7 @@ const actions = {
 }
 
 export default {
+  namespaced: true,
   state,
   getters,
   mutations,

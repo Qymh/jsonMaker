@@ -45,7 +45,7 @@ export default {
   name: 'Database',
   async fetch({ store }) {
     // 获取api
-    await store.dispatch('getApi')
+    await store.dispatch('api/getApi')
   },
   meta: {
     auth: true
@@ -71,14 +71,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      api: 'api',
-      userName: 'userName'
+      api: 'api/api',
+      userName: 'system/userName'
     })
   },
   methods: {
     ...mapActions({
-      addApi: 'addApi',
-      deleteApi: 'deleteApi'
+      addApi: 'api/addApi',
+      deleteApi: 'api/deleteApi'
     }),
     doAddApi() {
       this.$refs.myForm.validate(valid => {

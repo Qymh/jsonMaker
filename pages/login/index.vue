@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      setSystem: 'setSystem'
+      setSystem: 'system/setSystem'
     }),
     // 导航选择
     handleSelect(key) {
@@ -108,6 +108,19 @@ export default {
         }
       })
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (to.query.errorMessage) {
+        vm.$message({
+          message: to.query.errorMessage,
+          type: 'error',
+          duration: 1500
+        })
+        console.log(window.location)
+        window.location.query = ''
+      }
+    })
   }
 }
 </script>

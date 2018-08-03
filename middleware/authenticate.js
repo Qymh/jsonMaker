@@ -28,20 +28,26 @@ export default function({ store, route, redirect, req }) {
       if (isClient) {
         token = vm.$cookie.get('token')
         if (token) {
-          store.dispatch('setSystem', { key: '_token', value: token })
-          store.dispatch('setSystem', { key: '_isFirstIn', value: false })
+          store.dispatch('system/setSystem', { key: '_token', value: token })
+          store.dispatch('system/setSystem', {
+            key: '_isFirstIn',
+            value: false
+          })
         } else {
-          store.dispatch('setSystem', { key: '_token', value: '' })
+          store.dispatch('system/setSystem', { key: '_token', value: '' })
         }
       }
       // 服务器端设置vuex
       if (isServer) {
         token = getCookieFromReq(req, 'token')
         if (token) {
-          store.dispatch('setSystem', { key: '_token', value: token })
-          store.dispatch('setSystem', { key: '_isFirstIn', value: false })
+          store.dispatch('system/setSystem', { key: '_token', value: token })
+          store.dispatch('system/setSystem', {
+            key: '_isFirstIn',
+            value: false
+          })
         } else {
-          store.dispatch('setSystem', { key: '_token', value: '' })
+          store.dispatch('system/setSystem', { key: '_token', value: '' })
         }
       }
       // token存在获取系统参数并写入vuex
@@ -49,10 +55,19 @@ export default function({ store, route, redirect, req }) {
         process.TOKEN = token
         system.getSystem(token).then(data => {
           const { userName, account } = data
-          store.dispatch('setSystem', { key: '_userName', value: userName })
-          store.dispatch('setSystem', { key: '_account', value: account })
-          store.dispatch('setSystem', { key: '_token', value: token })
-          store.dispatch('setSystem', { key: '_isFirstIn', value: false })
+          store.dispatch('system/setSystem', {
+            key: '_userName',
+            value: userName
+          })
+          store.dispatch('system/setSystem', {
+            key: '_account',
+            value: account
+          })
+          store.dispatch('system/setSystem', { key: '_token', value: token })
+          store.dispatch('system/setSystem', {
+            key: '_isFirstIn',
+            value: false
+          })
         })
       } else {
         redirect('/login')
