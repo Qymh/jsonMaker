@@ -109,9 +109,19 @@ exports.delete = (apiId, propertyId, token) => {
           err = CommonPlugins.dealError(err)
           reject(err)
         } else {
+          let propertyName = ''
+          // 这个位置用 === 无法匹配
           doc[0].api[outerIndex].properties = doc[0].api[
             outerIndex
-          ].properties.filter(p => p._id != propertyId)
+          ].properties.filter(p => {
+            if (p.id == propertyId) {
+              propertyName = p.name
+            }
+            return p._id != propertyId
+          })
+          doc[0].api[outerIndex].collections.forEach(p => {
+            delete p[propertyName]
+          })
           UserModel.findByIdAndUpdate(id, doc[0]).exec(err => {
             if (err) {
               err = CommonPlugins.dealError(err)
@@ -147,6 +157,15 @@ exports.put = (apiId, propertyId, value, token) => {
           err = CommonPlugins.dealError(err)
           reject(err)
         } else {
+          for (let item of match[0].properties) {
+            if (item.name == value) {
+              const errLater = {}
+              errLater.error_message = '属性名已经存在'
+              errLater.error_code = nodeconfig.code.existData
+              reject(errLater)
+              return
+            }
+          }
           let ago = ''
           // 修改属性
           doc[0].api[outerIndex].properties.forEach(p => {
@@ -187,7 +206,6 @@ exports.put = (apiId, propertyId, value, token) => {
             }
           })
         }
-        resolve(1)
       }
     })
   })

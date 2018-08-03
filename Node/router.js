@@ -5,6 +5,7 @@ const api = require('./actions/api')
 const system = require('./actions/system')
 const property = require('./actions/property')
 const collections = require('./actions/collections')
+const json = require('./actions/json')
 
 // 注册登陆
 router.post('/register', user.register).post('/login', user.login)
@@ -30,5 +31,8 @@ router
   .post('/addCollections', collections.add)
   .post('/getCollections', collections.get)
   .delete('/deleteCollections', collections.delete)
+  .put('/putCollections', collections.put)
+
+router.get('/:user/:api/value', json.get)
 
 module.exports = router

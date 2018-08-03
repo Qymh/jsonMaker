@@ -44,3 +44,18 @@ exports.delete = async (req, res) => {
       res.json(err)
     })
 }
+
+// 删除集合
+exports.put = async (req, res) => {
+  const data = req.body
+  const { apiId, collectionsObj, index } = data
+  const token = res.locals.token
+  await collections
+    .put(apiId, collectionsObj, index, token)
+    .then(data => {
+      res.json(data)
+    })
+    .catch(err => {
+      res.json(err)
+    })
+}
