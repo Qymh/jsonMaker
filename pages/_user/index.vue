@@ -29,7 +29,7 @@
           :data="api"
           @row-click="toProperty")
           el-table-column(prop="apiName" label="api名字" width="150")
-          el-table-column(prop="createdAt" label="创建时间" width="250")
+          //- el-table-column(prop="createdAt" label="创建时间" width="250")
           el-table-column(prop="description" label="描述")
           el-table-column(fixed="right" label="删除" width="120")
             template(slot-scope="scope")

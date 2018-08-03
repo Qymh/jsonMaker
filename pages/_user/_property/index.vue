@@ -18,7 +18,7 @@
               placeholder="请输入属性名")
           el-form-item
             el-button(
-              @click="doAddProperty"
+              @click.enter="doAddProperty"
               type="primary") 创建
       //- 创建属性值表格
       .property-option-form
@@ -77,7 +77,9 @@
             fixed="right"
             label="操作")
             template(slot-scope="scope")
-              el-button(type="text") 编辑
+              el-button(
+                @click="doShowCollectionsDialog(scope.row, scope.$index)"
+                type="text") 编辑
               el-button(
                 @click="doDeleteCollections(scope.row, scope.$index)"
                 type="text") 删除
@@ -87,9 +89,13 @@
           type="warning"
           show-icon
           :closable="false")
+        el-row.property-option-collections_btn
+          el-button(
+            type="primary"
+            @click="generateJSON") 生成JSON
     //- 修改属性名弹窗 
-    el-dialog.property-option-form_box__dialog(
-      :title="'修改属性名,原属性名'+currentPropertyDialog.name"
+    el-dialog.property-property-dialog(
+      :title="'原属性名'+currentPropertyDialog.name+',注意:修改属性名会重新刷新当前页面'"
       :visible.sync="showPropertyDialog")
       el-row
         el-form(
@@ -104,11 +110,32 @@
             el-button(
               type="primary"
               @click="doPutProperty") 确认
+    //- 修改属性值弹窗
+    el-dialog.property-collections-dialog(
+      title="属性值修改"
+      :visible.sync="showCollectionsDialog")
+      el-row
+        el-form(
+          ref="myDialogForm2"
+          label-width="200px"
+          label-position="left")
+          el-form-item(
+            v-for="(item,index) in collectionsDialogArr"
+            :key="index"
+            :label="item")
+            el-input(
+              :disabled="item==='collectionsId'||item==='createdAt'?true:false"
+              v-model="collectionsDialog[item]")
+          el-form-item
+            el-button(
+              type="primary"
+              @click="doPutCollections") 确认修改
 </template>
 
 <script>
 import format from '~/assets/lib/format'
 import { mapGetters, mapActions } from 'vuex'
+import { SERVERCONFIG } from '~/assets/lib/appconfig'
 export default {
   name: 'Property',
   async asyncData({ query, store }) {
@@ -137,8 +164,15 @@ export default {
       // 当前选择的属性
       currentPropertyDialog: {
         name: '',
-        propertyId: ''
+        propertyId: '',
+        index: ''
       },
+      // 修改集合model
+      collectionsDialog: {},
+      // 不是克隆的model
+      collectionsDialogNoClone: {},
+      // 当前选择的集合属性
+      currentCollectionsDialogIndex: '',
       // 属性规则
       propertyRules: {
         name: [
@@ -146,7 +180,8 @@ export default {
           { validator: format.onlyEng.bind(this), trigger: 'blur' }
         ]
       },
-      showPropertyDialog: false
+      showPropertyDialog: false,
+      showCollectionsDialog: false
     }
   },
   computed: {
@@ -155,7 +190,10 @@ export default {
       propertiesArr: 'propertiesArr',
       collectionsArr: 'collectionsArr',
       collectionsTableArr: 'collectionsTableArr'
-    })
+    }),
+    collectionsDialogArr() {
+      return Object.keys(this.collectionsDialog)
+    }
   },
   methods: {
     ...mapActions({
@@ -163,7 +201,8 @@ export default {
       deleteProperty: 'deleteProperty',
       putProperty: 'putProperty',
       addCollections: 'addCollections',
-      deleteCollections: 'deleteCollections'
+      deleteCollections: 'deleteCollections',
+      putCollections: 'putCollections'
     }),
     // 添加属性
     doAddProperty() {
@@ -179,11 +218,15 @@ export default {
     },
     // 删除属性
     doDeleteProperty(item, index) {
-      this.$confirm('您确定删除这条属性吗?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
+      this.$confirm(
+        '删除这条属性后,对应的集合将直接删除掉这条属性,请确认',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      )
         .then(() => {
           const { propertyId } = item
           const apiId = this.apiId
@@ -192,6 +235,7 @@ export default {
             type: 'success',
             message: '删除成功!'
           })
+          window.location.reload()
         })
         .catch(() => {})
     },
@@ -210,6 +254,7 @@ export default {
           const propertyId = this.currentPropertyDialog.propertyId
           const value = this.propertyDialog.name
           this.putProperty({ apiId, propertyId, value })
+          this.showPropertyDialog = false
         }
       })
     },
@@ -219,12 +264,34 @@ export default {
       const propertiesArr = this.propertiesArr
       this.addCollections({ apiId, propertiesArr })
     },
+    // 显示集合修改dialog
+    doShowCollectionsDialog(item, index) {
+      this.showCollectionsDialog = true
+      this.collectionsDialog = Object.assign({}, item)
+      this.collectionsDialogNoClone = item
+      this.currentCollectionsDialogIndex = index
+    },
     // 删除集合
     doDeleteCollections(row, index) {
       const { collectionsId } = row
       const apiId = this.apiId
 
       this.deleteCollections({ apiId, collectionsId, index })
+    },
+    // 删除集合
+    doPutCollections() {
+      const apiId = this.apiId
+      const collectionsObj = this.collectionsDialog
+      const index = this.currentCollectionsDialogIndex
+      this.putCollections({ apiId, collectionsObj, index })
+      this.showCollectionsDialog = false
+    },
+    // 生成JSON
+    generateJSON() {
+      const domain = SERVERCONFIG.domain
+      const pathName = window.location.pathname
+      const jumpUrl = `${domain}/api${pathName}/value`
+      window.location.assign(jumpUrl)
     },
     // 退出登陆
     signOut() {
@@ -304,6 +371,9 @@ export default {
         height: 100px;
         line-height: 100px;
         font-size: 25px;
+      }
+      &_btn {
+        margin-top: 20px;
       }
     }
   }

@@ -19,7 +19,7 @@
           el-input(v-model="login.account" placeholder="请输入你的帐号")
         //- 密码 
         el-form-item(label="密码" prop="password")
-          el-input(v-model="login.password" placeholder="请输入你的密码")
+          el-input(v-model="login.password" type="password" placeholder="请输入你的密码")
         //- 按钮
         el-form-item.loginBox_btnBox
           el-button(type="primary" @click="register") 注册

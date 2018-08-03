@@ -42,6 +42,16 @@ const mutations = {
       type: 'success',
       duration: 1500
     })
+  },
+  _putCollections(state, { collectionsObj, index }) {
+    for (let i in collectionsObj) {
+      state._collectionsArr[index][i] = collectionsObj[i]
+    }
+    vm.$message({
+      message: '修改成功',
+      type: 'success',
+      duration: 1500
+    })
   }
 }
 
@@ -70,6 +80,15 @@ const actions = {
       .deleteCollections(apiId, collectionsId)
       .then(() => {
         commit('_deleteCollections', index)
+      })
+      .catch(() => {})
+  },
+  // 修改集合
+  async putCollections({ commit }, { apiId, collectionsObj, index }) {
+    await collections
+      .putCollections(apiId, collectionsObj, index)
+      .then(() => {
+        commit('_putCollections', { collectionsObj, index })
       })
       .catch(() => {})
   }

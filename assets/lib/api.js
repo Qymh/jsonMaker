@@ -28,3 +28,5 @@ export const addCollections = '/api/addCollections'
 export const getCollections = '/api/getCollections'
 // 删除集合
 export const deleteCollections = '/api/deleteCollections'
+// 修改集合
+export const putCollections = '/api/putCollections'

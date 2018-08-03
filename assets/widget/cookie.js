@@ -11,7 +11,7 @@ Cookie.install = Vue => {
     set(key, value) {
       let now = new Date()
       now.setDate(now.getDate() + COOKIECONFIG.expiresDay)
-      document.cookie = `${key}=${value};expires=${now.toUTCString()}`
+      document.cookie = `${key}=${escape(value)};expires=${now.toUTCString()}`
     },
     /**
      * 获取cookie
@@ -42,11 +42,13 @@ Cookie.install = Vue => {
         for (let i in key) {
           let item = key[i]
           let value = this.get(item)
-          document.cookie = `${item}=${value};expires=${now.toUTCString()}`
+          document.cookie = `${item}=${escape(
+            value
+          )};expires=${now.toUTCString()}`
         }
       } else {
         let value = this.get(key)
-        document.cookie = `${key}=${value};expires=${now.toUTCString()}`
+        document.cookie = `${key}=${escape(value)};expires=${now.toUTCString()}`
       }
     }
   }

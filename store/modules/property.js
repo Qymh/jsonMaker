@@ -25,8 +25,13 @@ const mutations = {
   _deleteProperty(state, index) {
     state._propertiesArr.splice(index, 1)
   },
-  _putProperty(state, index) {
-    console.log(index)
+  _putProperty() {
+    vm.$message({
+      message: '修改成功',
+      type: 'success',
+      duration: 1500
+    })
+    window.location.reload()
   }
 }
 
@@ -66,7 +71,7 @@ const actions = {
     await property
       .putProperty(apiId, propertyId, value)
       .then(() => {
-        commit('_putProperty', 1)
+        commit('_putProperty')
       })
       .catch(() => {})
   }
