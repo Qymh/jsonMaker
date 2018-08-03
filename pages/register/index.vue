@@ -48,10 +48,10 @@ export default {
   data() {
     return {
       login: {
-        account: 'admin',
-        userName: 'Qymh',
-        password: '12345678',
-        passwordAgain: '12345678'
+        account: '',
+        userName: '',
+        password: '',
+        passwordAgain: ''
       },
       rules: {
         // 帐号

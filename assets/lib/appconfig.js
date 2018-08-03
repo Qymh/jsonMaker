@@ -12,6 +12,6 @@ export const COOKIECONFIG = {
 
 // server 设置
 export const SERVERCONFIG = {
-  domain: isDev ? 'http://127.0.0.1:5766' : '',
+  domain: isDev ? 'http://127.0.0.1:5766' : 'http://127.0.0.1:5766',
   timeout: 10000
 }

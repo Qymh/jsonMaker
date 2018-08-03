@@ -6,8 +6,8 @@
   "private": true,
   "config": {
     "nuxt": {
-      "host": "127.0.0.1",
-      "port": "8080"
+      "host": "172.16.0.224",
+      "port": "5777"
     }
   },
   "scripts": {

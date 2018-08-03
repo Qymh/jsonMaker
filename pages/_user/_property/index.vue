@@ -300,7 +300,7 @@ export default {
     },
     // 回到首页
     toHome() {
-      this.$router.push('test')
+      this.$router.push(`/${this.userName}`)
     }
   }
 }

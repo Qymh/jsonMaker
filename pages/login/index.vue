@@ -38,8 +38,8 @@ export default {
   data() {
     return {
       login: {
-        account: 'admin',
-        password: '12345678'
+        account: '',
+        password: ''
       },
       rules: {
         // 帐号
