@@ -23,10 +23,10 @@ export default {
   /**
    * 获取api
    */
-  getApi() {
+  getApi(userName) {
     return new Promise((resolve, reject) => {
       http
-        .post(api.getApi, {})
+        .post(api.getApi, { userName })
         .then(data => {
           resolve(data)
         })

@@ -34,13 +34,20 @@ const mutations = {
 
 const actions = {
   // 获取api
-  async getApi({ commit }) {
+  async getApi({ commit }, { userName, redirect }) {
     await api
-      .getApi()
+      .getApi(userName)
       .then(arr => {
         commit('_getApi', arr)
       })
-      .catch(() => {})
+      .catch(() => {
+        redirect({
+          path: '/login',
+          query: {
+            errorMessage: '用户不存在,请重新登陆'
+          }
+        })
+      })
   },
   // 添加api
   async addApi({ commit }, obj) {

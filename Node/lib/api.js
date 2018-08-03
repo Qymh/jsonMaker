@@ -60,10 +60,17 @@ exports.add = (apiName, description, token) => {
  * 获取api
  * @param {String} token token值
  */
-exports.get = token => {
+exports.get = (userName, token) => {
   return new Promise((resolve, reject) => {
     const id = UserPlugins.verifyToken(token).data
     UserModel.find({ _id: id }).exec((err, doc) => {
+      if (doc[0].userName !== userName) {
+        const laterErr = {}
+        laterErr.error_code = nodeconfig.code.noUser
+        laterErr.error_message = '用户不存在'
+        reject(laterErr)
+        return
+      }
       if (err) {
         err = CommonPlugins.dealError(err)
         reject(err)

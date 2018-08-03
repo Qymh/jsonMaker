@@ -43,9 +43,10 @@ import format from '~/assets/lib/format'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Database',
-  async fetch({ store }) {
+  async fetch({ store, route, redirect }) {
+    const userName = route.path.slice(1)
     // 获取api
-    await store.dispatch('api/getApi')
+    await store.dispatch('api/getApi', { userName, redirect })
   },
   meta: {
     auth: true

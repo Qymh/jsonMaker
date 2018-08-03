@@ -66,6 +66,7 @@ exports.get = (apiId, token) => {
         // 这个位置用 === 无法匹配
         const match = doc[0].api.filter(p => p._id == apiId)
         if (match.length !== 1) {
+          err = {}
           err.message = 'apiId不存在'
           err = CommonPlugins.dealError(err)
           reject(err)

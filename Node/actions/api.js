@@ -17,9 +17,11 @@ exports.add = async (req, res) => {
 
 // 获取
 exports.get = async (req, res) => {
+  const data = req.body
+  const { userName } = data
   const token = res.locals.token
   await api
-    .get(token)
+    .get(userName, token)
     .then(doc => {
       res.json(doc)
     })
