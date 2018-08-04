@@ -10,7 +10,8 @@ const router = require('./router')
 app.all('*', function(req, res, next) {
   if (
     req.headers.origin === 'https://ui.qymh.org.cn' ||
-    req.headers.origin === 'https://json.qymh.org.cn'
+    req.headers.origin === 'https://json.qymh.org.cn' ||
+    req.headers.origin === 'http://127.0.0.1:8080'
   ) {
     res.header('Access-Control-Allow-Origin', req.headers.origin)
     res.header(
