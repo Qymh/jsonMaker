@@ -8,9 +8,17 @@ const db = mongoose.connection
 const router = require('./router')
 
 app.all('*', function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS')
-  res.header('Access-Control-Allow-Headers', '*')
+  if (
+    req.headers.origin === 'https://ui.qymh.org.cn' ||
+    req.headers.origin === 'https://json.qymh.org.cn'
+  ) {
+    res.header('Access-Control-Allow-Origin', req.headers.origin)
+    res.header(
+      'Access-Control-Allow-Methods',
+      'PUT, GET, POST, DELETE, OPTIONS'
+    )
+    res.header('Access-Control-Allow-Headers', '*')
+  }
   next()
 })
 
