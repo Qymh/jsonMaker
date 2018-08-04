@@ -5,12 +5,12 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'author', content: 'Qymh' },
-      { name: 'keywords', content: 'Json,JSON,JsonMaker'},
+      { name: 'keywords', content: 'Json,JSON,JsonMaker' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { 
+      {
         hid: 'description',
         name: 'description',
-        content: 'JsonMaker用户制造JSON,一个全栈项目,前端基于Nuxt Vuex Pug Scss Axios element-ui 后端基于 Node Express mongoose mongodb jsonwebtoken' 
+        content: 'JsonMaker用户制造JSON,一个全栈项目,前端基于Nuxt Vuex Pug Scss Axios element-ui 后端基于 Node Express mongoose mongodb jsonwebtoken'
       }
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
@@ -31,7 +31,11 @@ module.exports = {
     // element-ui
     { src: '~/plugins/element-ui' },
     // widget
-    { src: '~/plugins/widget' }
+    { src: '~/plugins/widget' },
+    // 百度统计
+    { src: '~/plugins/baiduStatistics', ssr: false },
+    // 百度站长平台
+    { src: '~/plugins/baiduStation', ssr: false }
   ],
   // webpack配置
   build: {
@@ -66,10 +70,7 @@ module.exports = {
     // postcss配置
     postcss: [require('autoprefixer')()],
     // 公用库
-    vendor: [
-      'axios',
-      'element-ui'
-    ]
+    vendor: ['axios', 'element-ui']
   },
   router: {
     // 认证中间件
