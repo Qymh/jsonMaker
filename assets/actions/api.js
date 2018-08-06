@@ -51,5 +51,24 @@ export default {
           reject(err)
         })
     })
+  },
+
+  /**
+   * 修改api
+   * @param {String} apiId apiId
+   * @param {String} apiName api名字
+   * @param {String} description api描述
+   */
+  putApi(apiId, apiName, description) {
+    return new Promise((resolve, reject) => {
+      http
+        .put(api.putApi, { apiId, apiName, description })
+        .then(data => {
+          resolve(data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
   }
 }

@@ -29,6 +29,15 @@ const mutations = {
       type: 'success',
       duration: 1500
     })
+  },
+  _putApi(state, { apiName, description, index }) {
+    state._api[index].apiName = apiName
+    state._api[index].description = description
+    vm.$message({
+      message: '修改成功',
+      type: 'success',
+      duration: 1500
+    })
   }
 }
 
@@ -50,8 +59,7 @@ const actions = {
       })
   },
   // 添加api
-  async addApi({ commit }, obj) {
-    const { apiName, description } = obj
+  async addApi({ commit }, { apiName, description }) {
     await api
       .addApi(apiName, description)
       .then(data => {
@@ -60,12 +68,20 @@ const actions = {
       .catch(() => {})
   },
   // 删除api
-  async deleteApi({ commit }, obj) {
-    const { apiId, index } = obj
+  async deleteApi({ commit }, { apiId, index }) {
     await api
       .deleteApi(apiId)
       .then(() => {
         commit('_deleteApi', index)
+      })
+      .catch(() => {})
+  },
+  // 修改api
+  async putApi({ commit }, { apiId, apiName, description, index }) {
+    await api
+      .putApi(apiId, apiName, description)
+      .then(() => {
+        commit('_putApi', { apiName, description, index })
       })
       .catch(() => {})
   }

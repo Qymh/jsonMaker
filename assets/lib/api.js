@@ -12,6 +12,8 @@ export const addApi = '/api/addApi'
 export const getApi = '/api/getApi'
 // 删除api
 export const deleteApi = '/api/deleteApi'
+// 修改api
+export const putApi = '/api/putApi'
 
 // 添加属性
 export const addProperty = '/api/addProperty'

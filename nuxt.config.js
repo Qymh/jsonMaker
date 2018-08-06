@@ -10,7 +10,8 @@ module.exports = {
       {
         hid: 'description',
         name: 'description',
-        content: 'JsonMaker用户制造JSON,一个全栈项目,前端基于Nuxt Vuex Pug Scss Axios element-ui 后端基于 Node Express mongoose mongodb jsonwebtoken'
+        content:
+          'JsonMaker用户制造JSON,一个全栈项目,前端基于Nuxt Vuex Pug Scss Axios element-ui 后端基于 Node Express mongoose mongodb jsonwebtoken'
       }
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
