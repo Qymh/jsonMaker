@@ -1,10 +1,9 @@
 /**
  * 从request中获取cookie
+ * @param {String} cookie cookie
  * @param {String} key 键
- * @param {Object} req request
  */
-export const getCookieFromReq = (req, key) => {
-  let cookie = req.headers.cookie
+export const getCookieFromReq = (cookie, key) => {
   let bool = cookie && cookie.indexOf(key) > -1
   if (bool) {
     let start = cookie.indexOf(key) + key.length + 1

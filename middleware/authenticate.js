@@ -15,7 +15,7 @@ export default function({ store, route, redirect, req }) {
   // 用户名字
   const userName = isClient
     ? vm.$cookie.get('token')
-    : getCookieFromReq(req, 'userName')
+    : getCookieFromReq(req.headers.cookie, 'userName')
 
   // 需要用户登陆才能访问的页面
   if (route.meta && route.meta[0].auth) {
@@ -39,7 +39,7 @@ export default function({ store, route, redirect, req }) {
       }
       // 服务器端设置vuex
       if (isServer) {
-        token = getCookieFromReq(req, 'token')
+        token = getCookieFromReq(req.headers.cookie, 'token')
         if (token) {
           store.dispatch('system/setSystem', { key: '_token', value: token })
           store.dispatch('system/setSystem', {
