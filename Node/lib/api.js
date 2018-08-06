@@ -95,23 +95,30 @@ exports.get = (userName, token) => {
 exports.delete = (apiId, token) => {
   return new Promise((resolve, reject) => {
     const id = UserPlugins.verifyToken(token).data
-    UserModel.find({ _id: id }).exec((err, doc) => {
+    ApiModel.findByIdAndRemove(apiId).exec(err => {
       if (err) {
         err = CommonPlugins.dealError(err)
         reject(err)
       } else {
-        const arr = doc[0].api.filter(p => {
-          return p._id != apiId
+        UserModel.find({ _id: id }).exec((err, doc) => {
+          if (err) {
+            err = CommonPlugins.dealError(err)
+            reject(err)
+          } else {
+            const arr = doc[0].api.filter(p => {
+              return p._id != apiId
+            })
+            UserModel.find({ _id: id })
+              .update({ $set: { api: arr } })
+              .exec(err => {
+                if (err) {
+                  err = CommonPlugins.dealError(err)
+                } else {
+                  resolve({ success: true })
+                }
+              })
+          }
         })
-        UserModel.find({ _id: id })
-          .update({ $set: { api: arr } })
-          .exec(err => {
-            if (err) {
-              err = CommonPlugins.dealError(err)
-            } else {
-              resolve({ success: true })
-            }
-          })
       }
     })
   })
@@ -127,34 +134,44 @@ exports.delete = (apiId, token) => {
 exports.put = (apiId, apiName, description, token) => {
   return new Promise((resolve, reject) => {
     const id = UserPlugins.verifyToken(token).data
-    UserModel.find({ _id: id }).exec((err, doc) => {
+    ApiModel.findByIdAndUpdate(
+      apiId,
+      { apiName, description },
+      { new: true }
+    ).exec((err, newApi) => {
       if (err) {
         err = CommonPlugins.dealError(err)
         reject(err)
       } else {
-        let outerIndex = ''
-        const arr = doc[0].api.filter((p, index) => {
-          if (p._id == apiId) {
-            outerIndex = index
-          }
-          return p._id == apiId
-        })
-        if (!arr.length) {
-          const errLater = {}
-          errLater.error_code = nodeconfig.code.unknown
-          errLater.error_message = 'api不存在'
-          reject(errLater)
-        } else {
-          doc[0].api[outerIndex].apiName = apiName
-          doc[0].api[outerIndex].description = description
-          UserModel.findByIdAndUpdate(id, doc[0]).exec(err => {
-            if (err) {
-              err = CommonPlugins.dealError(err)
+        UserModel.find({ _id: id }).exec((err, doc) => {
+          if (err) {
+            err = CommonPlugins.dealError(err)
+            reject(err)
+          } else {
+            let outerIndex = ''
+            const arr = doc[0].api.filter((p, index) => {
+              if (p._id == apiId) {
+                outerIndex = index
+              }
+              return p._id == apiId
+            })
+            if (!arr.length) {
+              const errLater = {}
+              errLater.error_code = nodeconfig.code.unknown
+              errLater.error_message = 'api不存在'
+              reject(errLater)
             } else {
-              resolve({ success: true })
+              doc[0].api[outerIndex] = newApi
+              UserModel.findByIdAndUpdate(id, doc[0]).exec(err => {
+                if (err) {
+                  err = CommonPlugins.dealError(err)
+                } else {
+                  resolve({ success: true })
+                }
+              })
             }
-          })
-        }
+          }
+        })
       }
     })
   })

@@ -92,45 +92,52 @@ exports.get = (apiId, token) => {
 exports.delete = (apiId, propertyId, token) => {
   return new Promise((resolve, reject) => {
     const id = UserPlugins.verifyToken(token).data
-    UserModel.find({ _id: id }).exec((err, doc) => {
+    PropertyModel.findByIdAndRemove(propertyId).exec(err => {
       if (err) {
         err = CommonPlugins.dealError(err)
         reject(err)
       } else {
-        let outerIndex = ''
-        const match = doc[0].api.filter((p, index) => {
-          outerIndex = index
-          // 这个位置用 === 无法匹配
-          return p._id == apiId
-        })
-        if (match.length !== 1) {
-          let err = Object.create(null)
-          err.message = 'apiId不存在'
-          err = CommonPlugins.dealError(err)
-          reject(err)
-        } else {
-          let propertyName = ''
-          // 这个位置用 === 无法匹配
-          doc[0].api[outerIndex].properties = doc[0].api[
-            outerIndex
-          ].properties.filter(p => {
-            if (p.id == propertyId) {
-              propertyName = p.name
-            }
-            return p._id != propertyId
-          })
-          doc[0].api[outerIndex].collections.forEach(p => {
-            delete p[propertyName]
-          })
-          UserModel.findByIdAndUpdate(id, doc[0]).exec(err => {
-            if (err) {
+        UserModel.find({ _id: id }).exec((err, doc) => {
+          if (err) {
+            err = CommonPlugins.dealError(err)
+            reject(err)
+          } else {
+            let outerIndex = ''
+            const match = doc[0].api.filter((p, index) => {
+              outerIndex = index
+              // 这个位置用 === 无法匹配
+              return p._id == apiId
+            })
+            if (match.length !== 1) {
+              let err = Object.create(null)
+              err.message = 'apiId不存在'
               err = CommonPlugins.dealError(err)
               reject(err)
             } else {
-              resolve({ success: true })
+              let propertyName = ''
+              // 这个位置用 === 无法匹配
+              doc[0].api[outerIndex].properties = doc[0].api[
+                outerIndex
+              ].properties.filter(p => {
+                if (p.id == propertyId) {
+                  propertyName = p.name
+                }
+                return p._id != propertyId
+              })
+              doc[0].api[outerIndex].collections.forEach(p => {
+                delete p[propertyName]
+              })
+              UserModel.findByIdAndUpdate(id, doc[0]).exec(err => {
+                if (err) {
+                  err = CommonPlugins.dealError(err)
+                  reject(err)
+                } else {
+                  resolve({ success: true })
+                }
+              })
             }
-          })
-        }
+          }
+        })
       }
     })
   })
