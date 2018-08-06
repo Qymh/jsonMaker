@@ -44,3 +44,18 @@ exports.delete = async (req, res) => {
       res.json(err)
     })
 }
+
+// 修改
+exports.put = async (req, res) => {
+  const data = req.body
+  const { apiId, apiName, description } = data
+  const token = res.locals.token
+  await api
+    .put(apiId, apiName, description, token)
+    .then(doc => {
+      res.json(doc)
+    })
+    .catch(err => {
+      res.json(err)
+    })
+}

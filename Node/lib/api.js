@@ -116,3 +116,46 @@ exports.delete = (apiId, token) => {
     })
   })
 }
+
+/**
+ * 修改api
+ * @param {String} apiId apiId
+ * @param {String} apiName api名字
+ * @param {String} description api描述
+ * @param {String} token token值
+ */
+exports.put = (apiId, apiName, description, token) => {
+  return new Promise((resolve, reject) => {
+    const id = UserPlugins.verifyToken(token).data
+    UserModel.find({ _id: id }).exec((err, doc) => {
+      if (err) {
+        err = CommonPlugins.dealError(err)
+        reject(err)
+      } else {
+        let outerIndex = ''
+        const arr = doc[0].api.filter((p, index) => {
+          if (p._id == apiId) {
+            outerIndex = index
+          }
+          return p._id == apiId
+        })
+        if (!arr.length) {
+          const errLater = {}
+          errLater.error_code = nodeconfig.code.unknown
+          errLater.error_message = 'api不存在'
+          reject(errLater)
+        } else {
+          doc[0].api[outerIndex].apiName = apiName
+          doc[0].api[outerIndex].description = description
+          UserModel.findByIdAndUpdate(id, doc[0]).exec(err => {
+            if (err) {
+              err = CommonPlugins.dealError(err)
+            } else {
+              resolve({ success: true })
+            }
+          })
+        }
+      }
+    })
+  })
+}

@@ -15,6 +15,7 @@ router
   .post('/addApi', api.add)
   .post('/getApi', api.get)
   .delete('/deleteApi', api.delete)
+  .put('/putApi', api.put)
 
 // 系统
 router.post('/system', system.get)
@@ -33,6 +34,7 @@ router
   .delete('/deleteCollections', collections.delete)
   .put('/putCollections', collections.put)
 
+// 生成json
 router.get('/:user/:api/value', json.get)
 
 module.exports = router
