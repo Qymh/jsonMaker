@@ -10,15 +10,18 @@
           ref="myForm"
           :inline="true"
           :model="addApiForm"
-          :rules="addApiFormRules")
+          :rules="addApiFormRules"
+          @submit.native.prevent)
           el-form-item(label="api名字" prop="apiName")
             el-input(
               v-model="addApiForm.apiName"
-              placeholder="Api名字")
+              placeholder="Api名字"
+              @keyup.enter.native="doAddApi")
           el-form-item(label="描述" prop="description")
             el-input(
               v-model="addApiForm.description"
-              placeholder="描述")
+              placeholder="描述"
+              @keyup.enter.native="doAddApi")
           el-form-item
             el-button(
               @click="doAddApi"
@@ -47,13 +50,18 @@
           ref="myDialogForm1"
           :model="currentApiDialog"
           :rules="addApiFormRules"
-          :inline="true")
+          :inline="true"
+          @submit.native.prevent)
           el-form-item(
             label="修改Api名字" prop="apiName")
-            el-input(v-model="currentApiDialog.apiName")
+            el-input(
+              v-model="currentApiDialog.apiName"
+              @keyup.enter.native="doPutApi")
           el-form-item(
             label="修改Api描述" prop="description")
-            el-input(v-model="currentApiDialog.description")
+            el-input(
+              v-model="currentApiDialog.description"
+              @keyup.enter.native="doPutApi")
           el-form-item
             el-button(
               type="primary"
@@ -162,14 +170,20 @@ export default {
 <style lang="scss" scoped>
 .database {
   &-nav {
+    position: fixed;
+    left: 0;
+    top: 0;
     height: 60px;
+    width: 100%;
     border-bottom: 1px solid #e6e6e6;
     padding-left: 20px;
     padding-right: 20px;
+    background-color: white;
+    z-index: 1;
   }
   &-option {
     width: 1200px;
-    margin: 0 auto;
+    margin: 60px auto 0 auto;
     &-form {
       &_title {
         height: 100px;

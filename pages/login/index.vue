@@ -117,7 +117,6 @@ export default {
           type: 'error',
           duration: 1500
         })
-        console.log(window.location)
         window.location.query = ''
       }
     })

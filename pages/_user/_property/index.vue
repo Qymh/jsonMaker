@@ -11,11 +11,13 @@
           ref="myForm1"
           :model="property"
           :rules="propertyRules"
-          :inline="true")
+          :inline="true"
+          @submit.native.prevent)
           el-form-item(label="属性名" prop="name")
             el-input(
               v-model="property.name"
-              placeholder="请输入属性名")
+              placeholder="请输入属性名"
+              @keyup.enter.native="doAddProperty")
           el-form-item
             el-button(
               @click.enter="doAddProperty"
@@ -34,7 +36,8 @@
           label-width="150px"
           label-position="left"
           :inline="true"
-          v-show="propertiesArr.length")
+          v-show="propertiesArr.length"
+          @submit.native.prevent)
           el-row.property-option-form_box
             el-col(
               :span=12
@@ -44,7 +47,8 @@
                 :label="item.name")
                 el-input(
                   v-model="item.value"
-                  :placeholder="'请输入'+item.name")
+                  :placeholder="'请输入'+item.name"
+                  @keyup.enter.native="doAddCollections")
                 el-row.property-option-form_box__edit(@click.native="doShowPropertyDialog(item)")
                   el-row(type="flex" align="middle" justify="center") 
                     i.el-icon-edit-outline
@@ -102,10 +106,13 @@
           ref="myDialogForm1"
           :model="propertyDialog"
           :rules="propertyRules"
-          :inline="true")
+          :inline="true"
+          @submit.native.prevent)
           el-form-item(
             label="修改后的属性名" prop="name")
-            el-input(v-model="propertyDialog.name")
+            el-input(
+              v-model="propertyDialog.name"
+              @keyup.enter.native="doPutProperty")
           el-form-item
             el-button(
               type="primary"
@@ -118,14 +125,16 @@
         el-form(
           ref="myDialogForm2"
           label-width="200px"
-          label-position="left")
+          label-position="left"
+          @submit.native.prevent)
           el-form-item(
             v-for="(item,index) in collectionsDialogArr"
             :key="index"
             :label="item")
             el-input(
               :disabled="item==='collectionsId'||item==='createdAt'?true:false"
-              v-model="collectionsDialog[item]")
+              v-model="collectionsDialog[item]"
+              @keyup.enter.native="doPutCollections")
           el-form-item
             el-button(
               type="primary"
@@ -309,14 +318,20 @@ export default {
 <style lang="scss" scoped>
 .property {
   &-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
     height: 60px;
+    width: 100%;
     border-bottom: 1px solid #e6e6e6;
     padding-left: 20px;
     padding-right: 20px;
+    background-color: white;
+    z-index: 1;
   }
   &-option {
     width: 1200px;
-    margin: 0 auto;
+    margin: 60px auto 0 auto;
     &-form {
       &_title {
         height: 100px;
