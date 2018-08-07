@@ -117,7 +117,11 @@ export default {
           type: 'error',
           duration: 1500
         })
-        window.location.query = ''
+      }
+      const token = vm.$cookie.get('token')
+      if (to.query.signOut && token) {
+        vm.$cookie.delete(['token', 'userName'])
+        window.location.reload()
       }
     })
   }

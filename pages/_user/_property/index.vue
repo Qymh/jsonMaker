@@ -299,8 +299,12 @@ export default {
     },
     // 退出登陆
     signOut() {
-      this.$cookie.delete(['token', 'userName'])
-      window.location.reload()
+      this.$router.push({
+        path: '/login',
+        query: {
+          signOut: true
+        }
+      })
     },
     // 回到首页
     toHome() {

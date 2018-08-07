@@ -160,8 +160,12 @@ export default {
     },
     // 注销登陆
     signOut() {
-      this.$cookie.delete(['token', 'userName'])
-      window.location.reload()
+      this.$router.push({
+        path: '/login',
+        query: {
+          signOut: true
+        }
+      })
     }
   }
 }
