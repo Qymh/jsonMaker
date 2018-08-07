@@ -43,9 +43,7 @@ exports.add = (apiId, name, token) => {
                   return
                 }
               }
-              match[0].properties.push({
-                name
-              })
+              match[0].properties.push(prop)
               UserModel.findByIdAndUpdate(id, doc[0]).exec(err => {
                 if (err) {
                   err = CommonPlugins.dealError(err)
@@ -119,7 +117,7 @@ exports.delete = (apiId, propertyId, token) => {
               doc[0].api[outerIndex].properties = doc[0].api[
                 outerIndex
               ].properties.filter(p => {
-                if (p.id == propertyId) {
+                if (p._id == propertyId) {
                   propertyName = p.name
                 }
                 return p._id != propertyId
