@@ -240,11 +240,6 @@ export default {
           const { propertyId } = item
           const apiId = this.apiId
           this.deleteProperty({ apiId, propertyId, index })
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
-          window.location.reload()
         })
         .catch(() => {})
     },

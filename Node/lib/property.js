@@ -90,7 +90,7 @@ exports.get = (apiId, token) => {
 exports.delete = (apiId, propertyId, token) => {
   return new Promise((resolve, reject) => {
     const id = UserPlugins.verifyToken(token).data
-    PropertyModel.findByIdAndRemove(propertyId).exec(err => {
+    PropertyModel.findByIdAndRemove(propertyId).exec((err, test) => {
       if (err) {
         err = CommonPlugins.dealError(err)
         reject(err)
@@ -125,14 +125,16 @@ exports.delete = (apiId, propertyId, token) => {
               doc[0].api[outerIndex].collections.forEach(p => {
                 delete p[propertyName]
               })
-              UserModel.findByIdAndUpdate(id, doc[0]).exec(err => {
-                if (err) {
-                  err = CommonPlugins.dealError(err)
-                  reject(err)
-                } else {
-                  resolve({ success: true })
+              UserModel.findByIdAndUpdate(id, doc[0], { new: true }).exec(
+                err => {
+                  if (err) {
+                    err = CommonPlugins.dealError(err)
+                    reject(err)
+                  } else {
+                    resolve({ success: true })
+                  }
                 }
-              })
+              )
             }
           }
         })

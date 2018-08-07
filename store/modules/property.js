@@ -24,6 +24,11 @@ const mutations = {
   },
   _deleteProperty(state, index) {
     state._propertiesArr.splice(index, 1)
+    vm.$message({
+      type: 'success',
+      message: '删除成功!'
+    })
+    window.location.reload()
   },
   _putProperty() {
     vm.$message({

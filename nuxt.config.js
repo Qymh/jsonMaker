@@ -14,7 +14,13 @@ module.exports = {
           'JsonMaker用户制造JSON,一个全栈项目,前端基于Nuxt Vuex Pug Scss Axios element-ui 后端基于 Node Express mongoose mongodb jsonwebtoken'
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: 'https://nav.qymh.org.cn/static/images/q.ico'
+      }
+    ]
   },
   // 全局css
   css: [

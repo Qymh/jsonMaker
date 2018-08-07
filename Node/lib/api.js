@@ -64,7 +64,7 @@ exports.get = (userName, token) => {
   return new Promise((resolve, reject) => {
     const id = UserPlugins.verifyToken(token).data
     UserModel.find({ _id: id }).exec((err, doc) => {
-      if (doc[0].userName !== userName) {
+      if (doc[0].userName != userName) {
         const laterErr = {}
         laterErr.error_code = nodeconfig.code.noUser
         laterErr.error_message = '用户不存在'

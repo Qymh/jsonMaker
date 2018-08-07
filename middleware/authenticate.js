@@ -16,7 +16,6 @@ export default function({ store, route, redirect, req }) {
   const userName = isClient
     ? vm.$cookie.get('token')
     : getCookieFromReq(req.headers.cookie, 'userName')
-
   // 需要用户登陆才能访问的页面
   if (route.meta && route.meta[0].auth) {
     // token存在不进行操作
